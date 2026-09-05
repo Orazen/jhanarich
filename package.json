@@ -10,12 +10,15 @@
     "test": "node --test tests/*.test.mjs",
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "node prisma/seed.mjs"
+    "db:seed": "node prisma/seed.mjs",
+    "db:setup": "node scripts/dbsetup.mjs"
   },
   "prisma": {
     "seed": "node prisma/seed.mjs"
   },
   "dependencies": {
+    "@libsql/client": "^0.8.1",
+    "@prisma/adapter-libsql": "^5.22.0",
     "@prisma/client": "^5.19.1",
     "lenis": "^1.1.13",
     "next": "14.2.13",

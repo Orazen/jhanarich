@@ -1,24 +1,26 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
 model Product {
-  id          String     @id @default(cuid())
-  slug        String     @unique
+  id          String   @id @default(cuid())
+  slug        String   @unique
   name        String
   category    String
   description String
   image       String
-  active      Boolean    @default(true)
-  featured    Boolean    @default(false)
-  sortOrder   Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  active      Boolean  @default(true)
+  featured    Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@index([category])
 }
 
@@ -34,5 +36,6 @@ model Enquiry {
   source    String   @default("website")
   status    String   @default("new")
   createdAt DateTime @default(now())
+
   @@index([status])
 }
