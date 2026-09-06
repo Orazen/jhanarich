@@ -509,10 +509,6 @@ export default function Home({ products }) {
         </div>
       </footer>
 
-      <a className="wa-float" href={`${WA}?text=${encodeURIComponent("Hello JHANARICH!")}`} target="_blank" rel="noopener" aria-label="Chat on WhatsApp" data-hover>
-        <WaIcon />
-      </a>
-
       <ChatWidget />
     </>
   );

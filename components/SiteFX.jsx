@@ -219,7 +219,7 @@ export default function SiteFX() {
 
     /* ---------- magnetic buttons ---------- */
     if (window.matchMedia("(pointer:fine)").matches) {
-      document.querySelectorAll(".btn,.nav-cta,.wa-float").forEach((el) => {
+      document.querySelectorAll(".btn,.nav-cta").forEach((el) => {
         const mv = (e) => {
           const r = el.getBoundingClientRect();
           const x = (e.clientX - r.left - r.width / 2) / r.width;
