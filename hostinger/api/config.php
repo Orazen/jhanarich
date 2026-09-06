@@ -1,30 +1,24 @@
 <?php
-// ============================================
-// JHANARICH — edit this file on your hosting.
-// Get DB credentials from hPanel → Databases → Management.
-// ============================================
+// JHANARICH — production config (Hostinger, MySQL).
+// DB password + admin password come from ~/.config/jhanarich/secrets.env
+// (outside the webroot), restored from your backup — never stored here.
 
 $config = [
     'db' => [
-        // 'mysql' on Hostinger, 'sqlite' for local testing
         'driver' => 'mysql',
         'host'   => 'localhost',
-        'name'   => 'u123456789_jhanarich',
-        'user'   => 'u123456789_admin',
-        'pass'   => 'CHANGE_ME_DB_PASSWORD',
+        'name'   => 'u347958425_Jhanarich',
+        'user'   => 'u347958425_Jhanarich',
+        'pass'   => '', // from secrets.env
     ],
-    // Admin console (/admin) — CHANGE before going live.
     'admin' => [
         'user' => 'admin',
-        'pass' => 'jhanarich2025',
+        'pass' => '', // from secrets.env (ADMIN_PASS)
     ],
     'wa' => '919440121743',
-    // Creates tables + seeds the 26-product catalogue on first run.
     'seed_if_empty' => true,
 ];
 
-// Optional local override (config.local.php) — same structure, e.g. for
-// testing with the sqlite driver. Gitignored, never uploaded.
 $override = __DIR__ . '/config.local.php';
 if (file_exists($override)) {
     $config = array_replace_recursive($config, require $override);

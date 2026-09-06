@@ -6,8 +6,7 @@ require_once __DIR__ . '/../api/ai.php';
 function jh_admin_config() { return jh_config()['admin']; }
 
 function jh_admin_login(string $u, string $p): bool {
-    $c = jh_admin_config();
-    return hash_equals($c['user'], $u) && hash_equals($c['pass'], $p);
+    return jh_admin_check($u, $p);
 }
 
 function jh_admin_ok(): bool {

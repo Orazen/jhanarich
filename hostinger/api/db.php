@@ -13,12 +13,22 @@ function jh_db(): PDO {
     if ($pdo instanceof PDO) return $pdo;
     $c = jh_config()['db'];
 
+    // Secrets (DB password, admin password) live OUTSIDE the webroot in
+    // ~/.config/jhanarich/secrets.env — never inside public_html.
+    // NOTE: web PHP often has no HOME env — resolve the account home from
+    // this file's own path (public_html/api → 4 levels up = account home).
+    $home = dirname(__DIR__, 4);
+    $secretsFile = $home . '/.config/jhanarich/secrets.env';
+    $secrets = file_exists($secretsFile) ? parse_ini_file($secretsFile) : [];
+
+    $pass = !empty($c['pass']) ? $c['pass'] : ($secrets['DB_PASS'] ?? '');
+
     try {
         if (($c['driver'] ?? 'mysql') === 'sqlite') {
             $pdo = new PDO('sqlite:' . (__DIR__ . '/jhanarich.sqlite'));
         } else {
             $dsn = sprintf('mysql:host=%s;dbname=%s;charset=utf8mb4', $c['host'], $c['name']);
-            $pdo = new PDO($dsn, $c['user'], $c['pass']);
+            $pdo = new PDO($dsn, $c['user'], $pass);
         }
     } catch (PDOException $e) {
         http_response_code(500);
@@ -30,6 +40,17 @@ function jh_db(): PDO {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     jh_ensure_schema($pdo);
     return $pdo;
+}
+
+function jh_admin_check(string $user, string $pass): bool {
+    $c = jh_config()['admin'];
+    $home = dirname(__DIR__, 4);
+    $secretsFile = $home . '/.config/jhanarich/secrets.env';
+    $secrets = file_exists($secretsFile) ? parse_ini_file($secretsFile) : [];
+    $expectUser = !empty($c['user']) ? $c['user'] : ($secrets['ADMIN_USER'] ?? 'admin');
+    $expectPass = !empty($c['pass']) ? $c['pass'] : ($secrets['ADMIN_PASS'] ?? '');
+    if ($expectPass === '') return false;
+    return hash_equals($expectUser, $user) && hash_equals($expectPass, $pass);
 }
 
 function jh_ensure_schema(PDO $pdo): void {
