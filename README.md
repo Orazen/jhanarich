@@ -60,9 +60,8 @@ Optional AI upgrade: `GEMINI_API_KEY=… npm run dev` (or `OPENAI_API_KEY=…`).
 
 ## Deploy
 
-Any Node host (Vercel, Dokploy, VPS): set `ADMIN_USER` / `ADMIN_PASSWORD` /
-`ADMIN_SECRET`, run `npm run build && npm start`. SQLite file persists alongside
-the app; swap `DATABASE_URL` to Postgres/MySQL by editing `prisma/schema.prisma`.
+- **Hostinger VPS (recommended — persistent SQLite, no external DB):** see [DEPLOY.md](./DEPLOY.md) — one script sets up Node, nginx, PM2, DB and HTTPS.
+- **Serverless (Vercel):** needs a hosted DB (Turso) — see commit `ae2a55b` notes; SQLite does not persist on serverless filesystems.
 
 ## Legacy
 
