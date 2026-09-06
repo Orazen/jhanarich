@@ -6,3 +6,6 @@ prisma/dev.db
 prisma/dev.db-journal
 .env
 .DS_Store
+hostinger/api/config.local.php
+out/
+jhanarich-hostinger.zip
