@@ -24,9 +24,9 @@ cleanup() {
 }
 trap cleanup EXIT
 
-echo "==> 2/7 clean + build"
+echo "==> 2/7 clean + build (static export mode)"
 rm -rf out .next
-NEXT_TELEMETRY_DISABLED=1 npx next build
+STATIC_EXPORT=1 NEXT_TELEMETRY_DISABLED=1 npx next build
 
 echo "==> 3/7 prune export artefacts"
 rm -rf out/admin out/api

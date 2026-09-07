@@ -22,6 +22,8 @@ const WaIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.8-5.1c-.6-1-.9-2.1-.6-2.9.1-.4.4-.8.7-1.1.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.2.2-.2.4-.1.6a8 8 0 0 0 3.4 2.9c.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.3.2.4.3.4.5s0 .9-.1 1.3z"/></svg>
 );
 
+const SIZES = {"honeycomb-fry-pan":"18–32 cm","triply-casserole":"18–28 cm","honeycomb-tawa":"24–32 cm","triply-sauce-pan":"14–16 cm","triply-fry-pan":"18–32 cm","dosa-tawa":"26–32 cm","triply-set":"Full range","triply-tope":"14–28 cm","granite-fry-pan":"18–30 cm","nonstick-casserole":"18–26 cm","nonstick-kadai":"18–28 cm","grill-pan":"24–28 cm","fry-pan-set":"3 sizes","fry-pan-set-red":"3 sizes","nonstick-fry-pan":"18–30 cm","nonstick-tawa":"24–28 cm","steel-cups-plates":"Assorted","ss-casserole":"18–28 cm","ss-tope":"14–28 cm","steel-bowls":"Assorted","steel-tumblers":"Assorted","ss-handles":"All rivet sizes","casted-handles":"All rivet sizes","bakelite-handles":"All rivet sizes","spice-boxes":"Assorted","packing-boxes":"Assorted"};
+
 function waEnq(name, cat) {
   return `${WA}?text=${encodeURIComponent(`Hello JHANARICH! I'd like to enquire about the ${name} (${CAT_LABEL[cat] || cat}). Please share details and pricing.`)}`;
 }
@@ -222,12 +224,53 @@ export default function Home({ products }) {
         </div>
       </section>
 
+      {/* CREDENTIALS / ATTRACTION BAND */}
+      <section className="cred">
+        <div className="wrap">
+          <div className="sec-head" style={{ marginBottom: "clamp(26px,3.4vw,40px)" }}>
+            <div>
+              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>03 — Verified Manufacturer</div>
+              <h2 className="rv rv-d1" style={{ color: "var(--paper)", fontSize: "clamp(34px,4.6vw,66px)" }}>Registered. Audited.<br /><i style={{ color: "var(--gold)" }}>Ready to ship.</i></h2>
+            </div>
+            <p className="sec-desc rv rv-d2" style={{ color: "rgba(243,237,225,.6)" }}>Not a reseller — we forge, coat and QC every pan under our own roof in Visakhapatnam.</p>
+          </div>
+          <div className="cred-grid">
+            <div className="cred-item rv">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M9 12l2 2 4-5m5 3a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/></svg>
+              <b>Registered Private Limited</b>
+              <span>Ministry of Corporate Affairs<br />CIN U46909AP2025PTC119851</span>
+            </div>
+            <div className="cred-item rv rv-d1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>
+              <b>GST Registered</b>
+              <span>GSTIN 37AAGCJ9332F1ZF<br />Export documentation ready</span>
+            </div>
+            <div className="cred-item rv rv-d2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <b>8-Range Catalogue</b>
+              <span>8 product codes · sizes 14–32<br />Triply, Honeycomb, Non-stick</span>
+            </div>
+            <div className="cred-item rv rv-d3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.4 4.6 2.5 2.5 0 0 1-1.4-.4M8 12a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm8 7a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zM8 12l10 7M8 7l10 7"/></svg>
+              <b>OEM &amp; Private Label</b>
+              <span>Your brand, your colours<br />Custom packaging at scale</span>
+            </div>
+          </div>
+          <div className="cred-logos">
+            <span className="mark"><img src="/assets/logo.png" alt="" />Jhanarich Private Limited</span>
+            <span className="mark">Forged in Visakhapatnam, India</span>
+            <span className="mark">GSTIN 37AAGCJ9332F1ZF</span>
+            <a className="mark" href="#contact" data-hover style={{ textDecoration: "none", cursor: "pointer" }}>Verify with us →</a>
+          </div>
+        </div>
+      </section>
+
       {/* TRIPLY SIGNATURE */}
       <section className="triply-sec" id="triply">
         <div className="triply-stage" id="triplyStage">
           <div className="triply-pin">
             <div className="triply-head">
-              <div className="sec-num">04 — The Technology</div>
+              <div className="sec-num">05 — The Technology</div>
               <h2>Three layers. <i>One bond.</i></h2>
             </div>
             <div className="triply-showcase">
@@ -274,7 +317,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">05 — The Range</div>
+              <div className="sec-num rv">06 — The Range</div>
               <h2 className="rv rv-d1">Every pan.<br /><i>Every purpose.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">From casseroles to dosa tawas, frypans to spice boxes — engineered across five product lines for home and professional kitchens.</p>
@@ -295,7 +338,7 @@ export default function Home({ products }) {
                     : <img src={p.image} alt={p.name} loading="lazy" />}
                 </div>
                 <div className="info">
-                  <span className="cat">{CAT_LABEL[p.category] || p.category}</span>
+                  <span className="cat">{CAT_LABEL[p.category] || p.category}{SIZES[p.slug] ? <em className="size-chip">{SIZES[p.slug]}</em> : null}</span>
                   <h3>{p.name}</h3>
                   <p>{p.description}</p>
                   {priceBlock(p)}
@@ -336,7 +379,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">06 — Why JHANARICH</div>
+              <div className="sec-num rv">07 — Why JHANARICH</div>
               <h2 className="rv rv-d1">Built different,<br /><i>on purpose.</i></h2>
             </div>
           </div>
@@ -354,7 +397,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">07 — Manufacturing</div>
+              <div className="sec-num rv">08 — Manufacturing</div>
               <h2 className="rv rv-d1">From raw steel<br /><i>to your stove.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Modern machinery, precision technology and experienced professionals monitoring every stage of production at scale.</p>
@@ -375,7 +418,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="oem-grid">
             <div>
-              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>08 — OEM &amp; Private Label</div>
+              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>09 — OEM &amp; Private Label</div>
               <h2 className="rv rv-d1">Your brand.<br /><i>Our forge.</i></h2>
               <p className="rv rv-d2">Launch or expand your cookware line without building a factory. We manufacture to your specification — your logo, your colours, your packaging — at production scale.</p>
               <ul className="oem-list rv rv-d3">
@@ -399,7 +442,7 @@ export default function Home({ products }) {
       {/* CATALOG BAND */}
       <section className="catalog-band">
         <div className="wrap" style={{ textAlign: "center" }}>
-          <div className="sec-num rv" style={{ justifyContent: "center" }}>09 — Spec Sheets</div>
+          <div className="sec-num rv" style={{ justifyContent: "center" }}>10 — Spec Sheets</div>
           <h2 className="rv rv-d1" style={{ marginBottom: "clamp(36px,5vw,64px)" }}>Retail-ready <i>catalogues.</i></h2>
           <div className="posters">
             <div className="poster rv"><img src="/assets/wa-frypan-poster.jpg" alt="Triply fry pan spec sheet" loading="lazy" /></div>
@@ -414,7 +457,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">10 — Reach &amp; Responsibility</div>
+              <div className="sec-num rv">11 — Reach &amp; Responsibility</div>
               <h2 className="rv rv-d1">Global markets,<br /><i>cleaner methods.</i></h2>
             </div>
           </div>
@@ -431,7 +474,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">11 — Contact</div>
+              <div className="sec-num rv">12 — Contact</div>
               <h2 className="rv rv-d1">Let&apos;s make<br /><i>something hot.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Discuss your requirements, request a product catalogue, or explore custom manufacturing solutions.</p>
@@ -489,7 +532,7 @@ export default function Home({ products }) {
       {/* CTA BAND */}
       <section className="cta-band">
         <div className="wrap">
-          <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>12 — Start today</div>
+          <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>13 — Start today</div>
           <h2 className="rv rv-d1">Ready when<br /><i>you are.</i></h2>
           <p className="rv rv-d2">Catalogues, samples, OEM conversations — one message on WhatsApp and our team responds within a business day.</p>
           <div className="hero-actions rv rv-d3">
