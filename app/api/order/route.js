@@ -70,18 +70,23 @@ export async function POST(req) {
     const lines = items.map((it, i) =>
       `${i + 1}. ${it.name} × ${it.qty} — ${it.price !== null ? inr(it.price * it.qty) : "price on request"}`
     );
+    // No 4-byte emoji: WhatsApp's wa.me redirector mangles astral-plane
+    // characters into U+FFFD; BMP symbols (₹, ×, —) survive.
     const text = [
-      `🛒 *New Order — ${row.ref}*`,
-      `Name: ${row.name}${row.business ? ` (${row.business})` : ""}`,
+      `*NEW ORDER — ${row.ref}*`,
+      `Customer: ${row.name}${row.business ? ` (${row.business})` : ""}`,
       row.phone ? `Phone: ${row.phone}` : "",
       row.email ? `Email: ${row.email}` : "",
       row.city ? `City: ${row.city}` : "",
       "",
+      "*Items*",
       ...lines,
       "",
       total !== null ? `*Estimated total: ${inr(total)}*` : "*Pricing on request*",
-      row.address ? `Deliver to: ${row.address}` : "",
+      row.address ? "*Deliver to*\n" + row.address : "",
       row.notes ? `Notes: ${row.notes}` : "",
+      "",
+      "Manage order: https://jhanarich.com/admin/orders.php",
       "— placed on jhanarich.com",
     ].filter(Boolean).join("\n").slice(0, 1800);
 

@@ -79,7 +79,9 @@ try {
     // email fan-out — never blocks the order response
     try { jh_order_mails($row, $items); } catch (Throwable $e) { error_log('order mail failed: ' . $e->getMessage()); }
 
-    // WhatsApp order summary (customer taps send → lands in company WhatsApp)
+    // WhatsApp order summary (customer taps send → lands in company WhatsApp).
+    // No 4-byte emoji here: WhatsApp's wa.me redirector mangles astral-plane
+    // characters into U+FFFD; BMP symbols (₹, ×, —) survive.
     $inr = fn($n) => '₹' . number_format((float)$n);
     $lines = [];
     $i = 0;
@@ -87,16 +89,17 @@ try {
         $i++;
         $lines[] = "{$i}. {$it['name']} × {$it['qty']}" . ($it['price'] !== null ? ' — ' . $inr($it['price'] * $it['qty']) : ' — price on request');
     }
-    $text = "🛒 *New Order — {$ref}*\n"
-        . ($row['business'] ? "{$row['name']} ({$row['business']})\n" : "{$row['name']}\n")
+    $text = "*NEW ORDER — {$ref}*\n"
+        . "Customer: {$row['name']}" . ($row['business'] ? " ({$row['business']})" : '') . "\n"
         . "Phone: {$row['phone']}\n"
         . ($row['email'] ? "Email: {$row['email']}\n" : '')
         . ($row['city'] ? "City: {$row['city']}\n" : '')
-        . "\n" . implode("\n", $lines) . "\n"
+        . "\n*Items*\n" . implode("\n", $lines) . "\n"
         . ($total !== null ? "\n*Estimated total: {$inr($total)}*" : "\n*Pricing on request*")
-        . ($row['address'] ? "\n\nDeliver to: {$row['address']}" : '')
+        . ($row['address'] ? "\n\n*Deliver to*\n{$row['address']}" : '')
         . ($row['notes'] ? "\n\nNotes: {$row['notes']}" : '')
-        . "\n\n— placed on jhanarich.com";
+        . "\n\nManage order: https://jhanarich.com/admin/orders.php"
+        . "\n— placed on jhanarich.com";
     if (mb_strlen($text) > 1800) $text = mb_substr($text, 0, 1800) . '…';
 
     echo json_encode([
