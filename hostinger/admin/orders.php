@@ -11,8 +11,15 @@ const ORD_STATUSES = ['new', 'confirmed', 'shipped', 'closed', 'cancelled'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? '';
     if (($_POST['action'] ?? '') === 'status' && in_array($_POST['status'] ?? '', ORD_STATUSES, true) && $id) {
-        $st = $db->prepare("UPDATE OrderRequest SET status = :s WHERE id = :id");
-        $st->execute([':s' => $_POST['status'], ':id' => $id]);
+        $cur = $db->prepare("SELECT * FROM OrderRequest WHERE id = :id");
+        $cur->execute([':id' => $id]);
+        $o = $cur->fetch();
+        // email the customer only on a real status change (not a re-save)
+        if ($o && $o['status'] !== $_POST['status']) {
+            $st = $db->prepare("UPDATE OrderRequest SET status = :s WHERE id = :id");
+            $st->execute([':s' => $_POST['status'], ':id' => $id]);
+            try { jh_order_status_mail($o, $_POST['status']); } catch (Throwable $e) { error_log('status mail failed: ' . $e->getMessage()); }
+        }
     }
     if (($_POST['action'] ?? '') === 'delete' && $id) {
         $st = $db->prepare("DELETE FROM OrderRequest WHERE id = :id");
@@ -23,7 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $filter = in_array($_GET['filter'] ?? '', ORD_STATUSES, true) ? $_GET['filter'] : 'all';
-if ($filter === 'all') {
+$refQ = trim((string)($_GET['ref'] ?? ''));
+if ($refQ !== '') {
+    // deep link from the admin notification email (?ref=JR-XXXXXX, partial ok)
+    $st = $db->prepare("SELECT * FROM OrderRequest WHERE ref LIKE :r ORDER BY createdAt DESC, id DESC");
+    $st->execute([':r' => '%' . $refQ . '%']);
+    $rows = $st->fetchAll();
+} elseif ($filter === 'all') {
     $rows = $db->query("SELECT * FROM OrderRequest ORDER BY createdAt DESC, id DESC")->fetchAll();
 } else {
     $st = $db->prepare("SELECT * FROM OrderRequest WHERE status = :s ORDER BY createdAt DESC, id DESC");
