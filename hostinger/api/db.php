@@ -63,12 +63,19 @@ function jh_ensure_schema(PDO $pdo): void {
         category VARCHAR(40) NOT NULL,
         description TEXT NOT NULL,
         image VARCHAR(300) NOT NULL,
+        price INTEGER DEFAULT NULL,
+        mrp INTEGER DEFAULT NULL,
+        moq INTEGER DEFAULT NULL,
         active INTEGER NOT NULL DEFAULT 1,
         featured INTEGER NOT NULL DEFAULT 0,
         sortOrder INTEGER NOT NULL DEFAULT 0,
         createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     )");
+    // migrations for pre-existing installs
+    foreach (['price','mrp','moq'] as $col) {
+        try { $pdo->exec("ALTER TABLE Product ADD COLUMN $col INTEGER DEFAULT NULL"); } catch (Throwable $e) {}
+    }
     $pdo->exec("CREATE TABLE IF NOT EXISTS Enquiry (
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(200) NOT NULL,
@@ -122,18 +129,24 @@ function jh_products_seed(): array {
     ];
 }
 
+function jh_prices_seed(): array {
+    return json_decode('{"honeycomb-fry-pan":[2499,3499,25],"triply-casserole":[3299,4499,20],"honeycomb-tawa":[1999,2799,25],"triply-sauce-pan":[1799,2499,25],"triply-fry-pan":[1699,2399,25],"dosa-tawa":[1899,2599,25],"triply-set":[8999,12499,10],"triply-tope":[1599,2199,25],"granite-fry-pan":[1299,1899,50],"nonstick-casserole":[1899,2699,20],"nonstick-kadai":[1699,2399,30],"grill-pan":[1499,2099,30],"fry-pan-set":[3999,5599,10],"fry-pan-set-red":[4199,5899,10],"nonstick-fry-pan":[1099,1599,50],"nonstick-tawa":[999,1499,50],"steel-cups-plates":[449,649,100],"ss-casserole":[2299,3199,20],"ss-tope":[899,1299,50],"steel-bowls":[649,899,50],"steel-tumblers":[349,499,100],"ss-handles":[null,null,500],"casted-handles":[null,null,500],"bakelite-handles":[null,null,500],"spice-boxes":[299,449,100],"packing-boxes":[399,599,100]}', true);
+}
+
 function jh_seed_products(PDO $pdo): void {
     $driver = jh_config()['db']['driver'] ?? 'mysql';
     $ignore = $driver === 'sqlite' ? 'INSERT OR IGNORE INTO' : 'INSERT IGNORE INTO';
     $st = $pdo->prepare("$ignore Product
-        (id, slug, name, category, description, image, active, featured, sortOrder, createdAt, updatedAt)
-        VALUES (:id, :slug, :name, :category, :description, :image, 1, :featured, :sortOrder, :now, :now)");
+        (id, slug, name, category, description, image, price, mrp, moq, active, featured, sortOrder, createdAt, updatedAt)
+        VALUES (:id, :slug, :name, :category, :description, :image, :price, :mrp, :moq, 1, :featured, :sortOrder, :now, :now)");
     foreach (jh_products_seed() as [$slug, $name, $category, $description, $image, $sortOrder, $featured]) {
         $now = gmdate('Y-m-d H:i:s');
+        [$price, $mrp, $moq] = jh_prices_seed()[$slug] ?? [null, null, null];
         $st->execute([
             ':id' => 'p_' . substr(md5($slug), 0, 20),
             ':slug' => $slug, ':name' => $name, ':category' => $category,
             ':description' => $description, ':image' => $image,
+            ':price' => $price, ':mrp' => $mrp, ':moq' => $moq,
             ':featured' => $featured, ':sortOrder' => $sortOrder, ':now' => $now,
         ]);
     }

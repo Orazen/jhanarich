@@ -327,6 +327,31 @@ export default function SiteFX() {
     on(window, "pointerdown", () => ringPress && ringPress.classList.add("press"));
     on(window, "pointerup", () => ringPress && ringPress.classList.remove("press"));
 
+    /* ---------- live price overlay (Hostinger: overrides baked-in prices) ---------- */
+    (async () => {
+      try {
+        const r = await fetch("/api/prices.php");
+        if (!r.ok) return;
+        const map = await r.json();
+        document.querySelectorAll(".card[data-slug]").forEach((card) => {
+          const d = map[card.dataset.slug];
+          if (!d) return;
+          const row = card.querySelector(".price-row");
+          if (!row) return;
+          const inr = (n) => "₹" + n.toLocaleString("en-IN");
+          if (d.price) {
+            const off = d.mrp ? Math.round((1 - d.price / d.mrp) * 100) : 0;
+            row.innerHTML =
+              `<span class="price">${inr(d.price)}</span>` +
+              (d.mrp && d.mrp > d.price ? `<span class="mrp">${inr(d.mrp)}</span>` : "") +
+              (off >= 15 ? `<span class="off-badge">${off}% off</span>` : "");
+          } else {
+            row.innerHTML = `<span class="moq-note">${d.moq ? "MOQ " + d.moq + " units · " : ""}price on request</span>`;
+          }
+        });
+      } catch {}
+    })();
+
     /* ---------- enquiry form ---------- */
     const form = document.getElementById("enquiryForm");
     if (form) {

@@ -26,6 +26,23 @@ function waEnq(name, cat) {
   return `${WA}?text=${encodeURIComponent(`Hello JHANARICH! I'd like to enquire about the ${name} (${CAT_LABEL[cat] || cat}). Please share details and pricing.`)}`;
 }
 
+const inr = (n) => "₹" + n.toLocaleString("en-IN");
+
+function priceBlock(p) {
+  if (p.price) {
+    const off = p.mrp ? Math.round((1 - p.price / p.mrp) * 100) : 0;
+    return (
+      <div className="price-row">
+        <span className="price">{inr(p.price)}</span>
+        {p.mrp && p.mrp > p.price ? <span className="mrp">{inr(p.mrp)}</span> : null}
+        {off >= 15 ? <span className="off-badge">{off}% off</span> : null}
+      </div>
+    );
+  }
+  if (p.moq) return <div className="price-row"><span className="moq-note">MOQ {p.moq} units · price on request</span></div>;
+  return <div className="price-row"><span className="moq-note">Price on request</span></div>;
+}
+
 export default function Home({ products }) {
   const [activeCat, setActiveCat] = useState("all");
 
@@ -270,7 +287,7 @@ export default function Home({ products }) {
           </div>
           <div className="prod-grid" key={activeCat}>
             {visible.map((p, i) => (
-              <article className={`card pop${p.featured ? " wide" : ""}`} data-cat={p.category} style={{ animationDelay: `${(i % 4) * 70}ms` }} key={p.id}>
+              <article className={`card pop${p.featured ? " wide" : ""}`} data-cat={p.category} data-slug={p.slug} style={{ animationDelay: `${(i % 4) * 70}ms` }} key={p.id}>
                 <div className="shine"></div>
                 <div className="ph">
                   {p.image.startsWith("svg:")
@@ -281,6 +298,7 @@ export default function Home({ products }) {
                   <span className="cat">{CAT_LABEL[p.category] || p.category}</span>
                   <h3>{p.name}</h3>
                   <p>{p.description}</p>
+                  {priceBlock(p)}
                   <div className="actions">
                     <a className="wa-enq" href={waEnq(p.name, p.category)} target="_blank" rel="noopener" data-hover>
                       <WaIcon />Enquire

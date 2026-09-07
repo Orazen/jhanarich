@@ -25,6 +25,9 @@ const DDL = [
     category TEXT NOT NULL,
     description TEXT NOT NULL,
     image TEXT NOT NULL,
+    price INTEGER,
+    mrp INTEGER,
+    moq INTEGER,
     active BOOLEAN NOT NULL DEFAULT true,
     featured BOOLEAN NOT NULL DEFAULT false,
     sortOrder INTEGER NOT NULL DEFAULT 0,
@@ -46,9 +49,16 @@ const DDL = [
     createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`,
   `CREATE INDEX IF NOT EXISTS Enquiry_status_idx ON Enquiry (status)`,
+  // migrations for pre-existing installs
+  `ALTER TABLE Product ADD COLUMN price INTEGER`,
+  `ALTER TABLE Product ADD COLUMN mrp INTEGER`,
+  `ALTER TABLE Product ADD COLUMN moq INTEGER`,
 ];
-
-for (const sql of DDL) await prisma.$executeRawUnsafe(sql);
+for (const sql of DDL) {
+  try { await prisma.$executeRawUnsafe(sql); } catch (e) {
+    if (!/duplicate column|already exists/i.test(String(e))) throw e;
+  }
+}
 console.log("Tables ready.");
 
 // ---- seed (same data as prisma/seed.mjs) ----
@@ -85,7 +95,10 @@ const products = [
 ];
 
 // upsert by slug so re-running is safe on a live DB
+const PRICES = {"honeycomb-fry-pan":[2499,3499,25],"triply-casserole":[3299,4499,20],"honeycomb-tawa":[1999,2799,25],"triply-sauce-pan":[1799,2499,25],"triply-fry-pan":[1699,2399,25],"dosa-tawa":[1899,2599,25],"triply-set":[8999,12499,10],"triply-tope":[1599,2199,25],"granite-fry-pan":[1299,1899,50],"nonstick-casserole":[1899,2699,20],"nonstick-kadai":[1699,2399,30],"grill-pan":[1499,2099,30],"fry-pan-set":[3999,5599,10],"fry-pan-set-red":[4199,5899,10],"nonstick-fry-pan":[1099,1599,50],"nonstick-tawa":[999,1499,50],"steel-cups-plates":[449,649,100],"ss-casserole":[2299,3199,20],"ss-tope":[899,1299,50],"steel-bowls":[649,899,50],"steel-tumblers":[349,499,100],"ss-handles":[null,null,500],"casted-handles":[null,null,500],"bakelite-handles":[null,null,500],"spice-boxes":[299,449,100],"packing-boxes":[399,599,100]};
 for (const p of products) {
+  const pr = PRICES[p.slug] || [null, null, null];
+  p.price = pr[0]; p.mrp = pr[1]; p.moq = pr[2];
   await prisma.product.upsert({
     where: { slug: p.slug },
     update: { ...p },

@@ -15,6 +15,9 @@ model Product {
   category    String
   description String
   image       String
+  price       Int?
+  mrp         Int?
+  moq         Int?
   active      Boolean  @default(true)
   featured    Boolean  @default(false)
   sortOrder   Int      @default(0)

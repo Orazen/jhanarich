@@ -697,3 +697,18 @@ html.lenis,html.lenis body{height:auto}
 .jh-wa{display:block;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#1c7a41;padding:9px;border-top:1px dashed var(--line-soft);transition:background .3s}
 .jh-wa:hover{background:rgba(34,193,94,.07)}
 @media(max-width:520px){.jh-chat{left:12px;right:12px;width:auto;bottom:88px}}
+
+/* ============ PRICING DISPLAY (researched) ============ */
+.price-row{display:flex;align-items:baseline;gap:10px;margin-top:12px;font-variant-numeric:tabular-nums}
+.price-row .price{font-family:var(--serif);font-size:18px;font-weight:560;color:var(--ink)}
+.price-row .mrp{font-size:12.5px;color:var(--ink-faint);text-decoration:line-through;text-decoration-thickness:1px}
+.price-row .off-badge{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);border:1px solid rgba(194,67,11,.35);padding:3px 8px;border-radius:6px}
+.price-row .moq-note{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-style:normal}
+.card.wide .price-row .price{font-size:24px}
+
+/* ============ ADMIN: toasts + price inputs ============ */
+.toast{position:fixed;bottom:24px;right:24px;z-index:900;background:var(--ink);color:#fff;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:13px 20px;border-radius:100px;box-shadow:0 18px 40px -12px rgba(21,16,9,.5);animation:toastIn .35s var(--ease), toastOut .4s ease 3.6s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(8px)}}
+.admin-input.num{font-variant-numeric:tabular-nums;text-align:right}
+.admin-table .price-form{margin:0}
