@@ -1,21 +1,149 @@
 <?php
-// Order email notifications — PHP mail() (Hostinger shared: enabled by default).
-// admin@jhanarich.com is the account's own domain mailbox, so mail() delivers
-// without SMTP credentials.
+// Order email notifications — authenticated SMTP, falling back to PHP mail()
+// when SMTP_USER is not configured in secrets.env.
+//
+// Why SMTP: jhanarich.com's DNS routes mail through Google (MX smtp.google.com,
+// SPF "v=spf1 include:_spf.google.com ~all"). PHP mail() sends from Hostinger's
+// servers, which that SPF does not authorize — Google rejects or spam-files
+// every message even though mail() returns true. Sending through an
+// authenticated mailbox fixes authentication end to end.
+//
+// Credentials live OUTSIDE the webroot in ~/.config/jhanarich/secrets.env
+// (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM — same file as DB_PASS).
 //
 // Templates: table-based HTML with inline styles (Gmail/Outlook safe). The logo
 // is loaded from the live site — email clients cannot inline local assets.
 
+function jh_mail_creds(): array {
+    static $c = null;
+    if ($c !== null) return $c;
+    // web PHP has no HOME env — same account-home resolution as db.php
+    $home = dirname(__DIR__, 4);
+    $secretsFile = $home . '/.config/jhanarich/secrets.env';
+    $secrets = file_exists($secretsFile) ? (parse_ini_file($secretsFile) ?: []) : [];
+    $c = [
+        'host' => (string)($secrets['SMTP_HOST'] ?? ''),
+        'port' => (int)($secrets['SMTP_PORT'] ?? 465),
+        'user' => (string)($secrets['SMTP_USER'] ?? ''),
+        'pass' => (string)($secrets['SMTP_PASS'] ?? ''),
+        'from' => (string)($secrets['SMTP_FROM'] ?? ''),
+        'log'  => $home . '/.config/jhanarich/mail.log',
+    ];
+    return $c;
+}
+
+function jh_mail_log(string $line): void {
+    @file_put_contents(jh_mail_creds()['log'], '[' . gmdate('Y-m-d H:i:s') . 'Z] ' . $line . "\n", FILE_APPEND);
+}
+
+// Admin notification inbox — override with ADMIN_EMAIL in secrets.env.
+// admin@jhanarich.com only works if that mailbox actually exists somewhere;
+// otherwise those notifications silently vanish.
+function jh_admin_email(): string {
+    static $a = null;
+    if ($a === null) {
+        $home = dirname(__DIR__, 4);
+        $secrets = file_exists($home . '/.config/jhanarich/secrets.env') ? (parse_ini_file($home . '/.config/jhanarich/secrets.env') ?: []) : [];
+        $a = trim((string)($secrets['ADMIN_EMAIL'] ?? '')) ?: 'admin@jhanarich.com';
+    }
+    return $a;
+}
+
+// Minimal SMTP client (implicit TLS on 465, STARTTLS otherwise). Auth LOGIN.
+// Returns [ok, detail] with the server's final status for logging.
+function jh_smtp_send(string $from, array $recipients, string $data): array {
+    $c = jh_mail_creds();
+    $port = $c['port'] ?: 465;
+    $fp = @stream_socket_client(($port === 465 ? 'ssl://' : 'tcp://') . $c['host'] . ':' . $port, $errno, $errstr, 15);
+    if (!$fp) return [false, "connect: $errstr"];
+    stream_set_timeout($fp, 20);
+
+    $read = function () use ($fp): string {
+        $out = '';
+        while (($l = fgets($fp, 1024)) !== false) { $out .= $l; if (strlen($l) < 4 || $l[3] !== '-') break; }
+        return $out;
+    };
+    $cmd = function (string $c) use ($fp, $read): array {
+        fwrite($fp, $c . "\r\n");
+        $r = $read();
+        return [(int)substr($r, 0, 3), trim($r)];
+    };
+
+    $r = $read();
+    if ((int)substr($r, 0, 3) !== 220) { fclose($fp); return [false, "banner: $r"]; }
+    [$code] = $cmd('EHLO jhanarich.com');
+    if ($code !== 250) { fclose($fp); return [false, "ehlo $code"]; }
+    if ($port !== 465) {
+        [$code, $detail] = $cmd('STARTTLS');
+        if ($code !== 220) { fclose($fp); return [false, "starttls $code $detail"]; }
+        if (!stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) { fclose($fp); return [false, 'tls upgrade failed']; }
+        [$code] = $cmd('EHLO jhanarich.com');
+        if ($code !== 250) { fclose($fp); return [false, "ehlo2 $code"]; }
+    }
+    [$code] = $cmd('AUTH LOGIN');
+    if ($code !== 334) { fclose($fp); return [false, "auth $code"]; }
+    [$code] = $cmd(base64_encode($c['user']));
+    if ($code !== 334) { fclose($fp); return [false, "auth-user $code"]; }
+    [$code, $detail] = $cmd(base64_encode($c['pass']));
+    if ($code !== 235) { fclose($fp); return [false, "auth-pass $code $detail"]; }
+
+    [$code, $detail] = $cmd('MAIL FROM:<' . $from . '>');
+    if ($code !== 250) { fclose($fp); return [false, "mail-from $code $detail"]; }
+    foreach ($recipients as $rcpt) {
+        [$code, $detail] = $cmd('RCPT TO:<' . $rcpt . '>');
+        if ($code !== 250 && $code !== 251) { fclose($fp); return [false, "rcpt $rcpt: $code $detail"]; }
+    }
+    [$code, $detail] = $cmd('DATA');
+    if ($code !== 354) { fclose($fp); return [false, "data $code $detail"]; }
+
+    fwrite($fp, $data . "\r\n.\r\n");
+    $r = $read();
+    $code = (int)substr($r, 0, 3);
+    $cmd('QUIT');
+    fclose($fp);
+    return [$code === 250, trim($r)];
+}
+
 function jh_mail(string $to, string $subject, string $html, string $replyTo = ''): bool {
-    $from = 'orders@jhanarich.com';
-    $headers = [
+    $c = jh_mail_creds();
+    $from = $c['from'] !== '' ? $c['from'] : $c['user'];
+    $encSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    // base64 body keeps every line under the 998-byte SMTP limit (the branded
+    // HTML is otherwise one very long line) and survives any relay intact.
+    $body64 = chunk_split(base64_encode($html));
+
+    if ($c['host'] !== '' && $c['user'] !== '' && $c['pass'] !== '') {
+        $headers = [
+            'MIME-Version: 1.0',
+            'Content-Type: text/html; charset=UTF-8',
+            'Content-Transfer-Encoding: base64',
+            'From: JHANARICH Orders <' . $from . '>',
+            'To: ' . $to,
+            'Subject: ' . $encSubject,
+            'Date: ' . date('r'),
+            'Message-ID: <' . bin2hex(random_bytes(12)) . '@jhanarich.com>',
+            'X-Mailer: JHANARICH-SITE',
+        ];
+        if ($replyTo !== '') $headers[] = 'Reply-To: ' . $replyTo;
+        $data = implode("\r\n", $headers) . "\r\n\r\n" . $body64;
+        $data = preg_replace('/^\./m', '..', $data); // RFC 5321 dot-stuffing
+        [$ok, $detail] = jh_smtp_send($from, [$to], $data);
+        jh_mail_log(($ok ? 'OK   ' : 'FAIL ') . "to=$to subj=\"$subject\" :: $detail");
+        return $ok;
+    }
+
+    // Fallback: classic mail() — accepted locally, deliverability not assured.
+    $h = [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
-        'From: JHANARICH Orders <' . $from . '>',
+        'Content-Transfer-Encoding: base64',
+        'From: JHANARICH Orders <orders@jhanarich.com>',
         'X-Mailer: JHANARICH-SITE',
     ];
-    if ($replyTo !== '') $headers[] = 'Reply-To: ' . $replyTo;
-    return @mail($to, $subject, $html, implode("\r\n", $headers));
+    if ($replyTo !== '') $h[] = 'Reply-To: ' . $replyTo;
+    $ok = @mail($to, $encSubject, $body64, implode("\r\n", $h), '-forders@jhanarich.com');
+    jh_mail_log(($ok ? 'OK   ' : 'FAIL ') . "mail() to=$to subj=\"$subject\" :: fallback (SMTP not configured)");
+    return $ok;
 }
 
 // inr formatter shared by order mails
@@ -156,9 +284,9 @@ function jh_order_status_html(array $o, string $status): string {
 // Full order confirmation → admin, acknowledgment → customer.
 // $o = order row (array), $items = decoded items [[name,qty,price],...]
 function jh_order_mails(array $o, array $items): void {
-    jh_mail('admin@jhanarich.com', 'New order ' . $o['ref'] . ' — ' . $o['name'] . ($o['city'] ? ' (' . $o['city'] . ')' : ''), jh_order_admin_html($o, $items), (string)($o['email'] ?: ''));
+    jh_mail(jh_admin_email(), 'New order ' . $o['ref'] . ' — ' . $o['name'] . ($o['city'] ? ' (' . $o['city'] . ')' : ''), jh_order_admin_html($o, $items), (string)($o['email'] ?: ''));
     if (!empty($o['email'])) {
-        jh_mail($o['email'], 'Order ' . jh_esc($o['ref']) . ' received — JHANARICH', jh_order_customer_html($o, $items), 'admin@jhanarich.com');
+        jh_mail($o['email'], 'Order ' . jh_esc($o['ref']) . ' received — JHANARICH', jh_order_customer_html($o, $items), jh_admin_email());
     }
 }
 
@@ -173,5 +301,5 @@ function jh_order_status_mail(array $o, string $status): void {
         'cancelled' => 'Order ' . $o['ref'] . ' cancelled',
     ];
     $subject = ($subjects[$status] ?? 'Update on order ' . $o['ref']) . ' — JHANARICH';
-    jh_mail($o['email'], $subject, jh_order_status_html($o, $status), 'admin@jhanarich.com');
+    jh_mail($o['email'], $subject, jh_order_status_html($o, $status), jh_admin_email());
 }
