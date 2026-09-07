@@ -197,7 +197,7 @@ export default function Home({ products }) {
           </div>
           <div className="col-grid">
             <button onClick={() => goRange("triply")} className="col-card" data-cursor="Shop triply" data-hover>
-              <img src="/assets/catalog/cover-1.jpg" alt="Triply series" data-parallax />
+              <img src="/assets/catalog/family.jpg" alt="Triply series" data-parallax />
               <span className="col-tag">Bestseller</span>
               <div className="col-info">
                 <div><span className="no">SERIES — 01 · CODES JRCH/JRCT</span><h3>The Triply Series</h3><p>Bonded steel-aluminium-steel. Even heat, forever build. Sizes 14–32 cm.</p></div>
