@@ -193,27 +193,27 @@ export default function Home({ products }) {
               <div className="sec-num rv">03 — Collections</div>
               <h2 className="rv rv-d1">Three series.<br /><i>One signature.</i></h2>
             </div>
-            <p className="sec-desc rv rv-d2">Curated families, engineered for different fires — from everyday rotis to hotel line kitchens.</p>
+            <p className="sec-desc rv rv-d2">Curated families, engineered for different fires — from everyday rotis to hotel line kitchens. Tap a series for specs.</p>
           </div>
           <div className="col-grid">
             <button onClick={() => goRange("triply")} className="col-card" data-cursor="Shop triply" data-hover>
-              <img src="/assets/image2.jpg" alt="Triply series" data-parallax />
+              <img src="/assets/catalog/cover-1.jpg" alt="Triply series" data-parallax />
               <span className="col-tag">Bestseller</span>
               <div className="col-info">
-                <div><span className="no">SERIES — 01</span><h3>The Triply Series</h3><p>Bonded steel-aluminium-steel. Even heat, forever build.</p></div>
+                <div><span className="no">SERIES — 01 · CODES JRCH/JRCT</span><h3>The Triply Series</h3><p>Bonded steel-aluminium-steel. Even heat, forever build. Sizes 14–32 cm.</p></div>
                 <span className="col-arrow"><Arrow /></span>
               </div>
             </button>
             <button onClick={() => goRange("nonstick")} className="col-card" data-cursor="Shop non-stick" data-hover>
-              <img src="/assets/image12.jpg" alt="Non-stick series" data-parallax />
+              <img src="/assets/catalog/nonstick-set.jpg" alt="Non-stick series" data-parallax />
               <span className="col-tag">PFOA free</span>
               <div className="col-info">
-                <div><span className="no">SERIES — 02</span><h3>The Non-Stick Series</h3><p>Three-layer release, granite &amp; spatter finishes, low-oil cooking.</p></div>
+                <div><span className="no">SERIES — 02 · CODE JRCN</span><h3>The Non-Stick Series</h3><p>Three-layer release, granite &amp; spatter finishes, low-oil cooking.</p></div>
                 <span className="col-arrow"><Arrow /></span>
               </div>
             </button>
             <button onClick={() => goRange("steel")} className="col-card" data-cursor="Shop steel" data-hover>
-              <img src="/assets/wa-casserole.jpg" alt="Stainless steel series" data-parallax />
+              <img src="/assets/catalog/saucepan.jpg" alt="Stainless steel series" data-parallax />
               <span className="col-tag">Food-grade</span>
               <div className="col-info">
                 <div><span className="no">SERIES — 03</span><h3>The Steel Essentials</h3><p>Mirror-polished serveware and deep-drawn daily vessels.</p></div>
