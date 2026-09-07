@@ -6,6 +6,7 @@ import { join } from "node:path";
 const OUT = "out";
 const MAP = [
   ["/api/enquiry", "/api/enquiry.php"],
+  ["/api/order", "/api/order.php"],
   ["/api/chat", "/api/chat.php"],
   // admin routes are served by admin/*.php UIs; no client fetch remains
 ];

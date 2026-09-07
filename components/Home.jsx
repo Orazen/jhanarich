@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import SiteFX from "./SiteFX";
 import ChatWidget from "./ChatWidget";
+import OrderTray from "./OrderTray";
 
 const WA = "https://wa.me/919440121743";
 const CAT_LABEL = { triply: "Triply", nonstick: "Non-Stick", steel: "Stainless Steel", handles: "Handles", plastic: "Plastic" };
@@ -53,6 +54,23 @@ export default function Home({ products }) {
     const l = typeof window !== "undefined" ? window.__lenis : null;
     if (l) l.scrollTo("#products", { offset: -60, duration: 1.6 });
     else document.querySelector("#products")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // reads the LIVE price from the card DOM so the tray matches what the
+  // customer sees (SiteFX's price overlay may have replaced baked-in prices)
+  const addToOrder = (e) => {
+    const card = e.currentTarget.closest(".card");
+    if (!card) return;
+    const slug = card.dataset.slug;
+    if (!slug) return;
+    const name = card.querySelector("h3")?.textContent || slug;
+    let price = null;
+    const priceEl = card.querySelector(".price-row .price");
+    if (priceEl) {
+      const n = parseInt(priceEl.textContent.replace(/[^\d]/g, ""), 10);
+      if (!Number.isNaN(n) && n > 0) price = n;
+    }
+    window.dispatchEvent(new CustomEvent("jr:order", { detail: { slug, name, price } }));
   };
 
   const visible = useMemo(
@@ -346,6 +364,9 @@ export default function Home({ products }) {
                     <a className="wa-enq" href={waEnq(p.name, p.category)} target="_blank" rel="noopener" data-hover>
                       <WaIcon />Enquire
                     </a>
+                    <button className="order-btn" onClick={addToOrder} data-hover aria-label={`Add ${p.name} to order`}>
+                      + Order
+                    </button>
                     <button className="like-btn" data-id={p.id} data-hover aria-label="Show interest">
                       <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" /></svg>
                       <span className="lc">0</span>
@@ -570,6 +591,7 @@ export default function Home({ products }) {
         </div>
       </footer>
 
+      <OrderTray />
       <ChatWidget />
     </>
   );

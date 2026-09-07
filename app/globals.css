@@ -748,3 +748,60 @@ html.lenis,html.lenis body{height:auto}
 .spec-line{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .spec-line b{color:var(--ember);font-weight:500}
 .size-chip{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--ink-faint);font-style:normal;margin-left:auto;border:1px solid var(--line-soft);padding:2px 8px;border-radius:100px}
+
+/* ============ ORDER TRAY (direct ordering) ============ */
+.card .actions{flex-wrap:nowrap}
+.card .actions .order-btn{flex:1;margin-top:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--ember);color:#fff;border:none;cursor:pointer;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;padding:13px 10px;border-radius:100px;white-space:nowrap;transition:transform .3s var(--ease),background .3s}
+.card .actions .order-btn:hover{background:#a63a08;transform:translateY(-2px)}
+.card .actions .wa-enq{flex:1}
+
+.order-fab{position:fixed;right:22px;bottom:108px;z-index:830;display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:15px 20px;border-radius:100px;box-shadow:0 16px 36px -10px rgba(21,16,9,.45);animation:fabIn .45s var(--ease)}
+.order-fab b{background:var(--ember);border-radius:100px;min-width:21px;height:21px;display:flex;align-items:center;justify-content:center;font-size:10px;padding:0 6px;font-weight:500}
+.order-fab.bump{animation:fabbump .5s var(--ease)}
+@keyframes fabbump{0%{transform:scale(1)}35%{transform:scale(1.1)}100%{transform:scale(1)}}
+@media(max-width:640px){.order-fab{right:14px;bottom:98px;padding:13px 16px}}
+
+.tray-backdrop{position:fixed;inset:0;background:rgba(21,16,9,.55);backdrop-filter:blur(3px);z-index:850;animation:fadeIn .3s ease}
+.tray{position:fixed;top:0;right:0;bottom:0;width:min(460px,100vw);background:var(--paper);z-index:860;display:flex;flex-direction:column;animation:trayIn .45s var(--ease);box-shadow:-24px 0 60px -20px rgba(21,16,9,.4)}
+@keyframes trayIn{from{transform:translateX(46px);opacity:0}to{transform:none;opacity:1}}
+.tray-h{display:flex;align-items:flex-start;justify-content:space-between;padding:24px 26px 20px;border-bottom:1px solid var(--line-soft)}
+.tray-h h3{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:.01em;margin-top:6px}
+.tray-x{background:none;border:1px solid var(--line);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--ink-soft);flex-shrink:0;transition:all .25s}
+.tray-x:hover{border-color:var(--ember);color:var(--ember)}
+
+.tray-items{flex:1;overflow:auto;padding:6px 26px}
+.tray-item{display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.tray-item .ti-info{flex:1;min-width:0}
+.tray-item .ti-info b{font-family:var(--serif);font-weight:500;font-size:15.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tray-item .ti-unit{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px;display:block}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:100px;overflow:hidden;flex-shrink:0}
+.qty button{width:30px;height:30px;background:none;border:none;cursor:pointer;font-size:15px;color:var(--ink);line-height:1}
+.qty button:hover{background:rgba(194,67,11,.08);color:var(--ember)}
+.qty b{min-width:26px;text-align:center;font-size:13px;font-variant-numeric:tabular-nums}
+.tray-item .ti-line{font-variant-numeric:tabular-nums;font-weight:560;font-size:14px;min-width:66px;text-align:right}
+.tray-item .ti-rm{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-size:13px;padding:4px;flex-shrink:0}
+.tray-item .ti-rm:hover{color:var(--ember)}
+
+.tray-foot{padding:18px 26px 26px;border-top:1px solid var(--line-soft);background:#fff}
+.tray-total{display:flex;justify-content:space-between;align-items:baseline}
+.tray-total b{font-family:var(--serif);font-size:24px;font-weight:560;font-variant-numeric:tabular-nums}
+.tray-note{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:6px 0 16px}
+.tray-cta{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--ember);color:#fff;border:none;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:17px;border-radius:100px;transition:background .3s,transform .3s var(--ease)}
+.tray-cta:hover{background:#a63a08;transform:translateY(-1px)}
+.tray-cta:disabled{opacity:.6;cursor:wait;transform:none}
+.tray-cta.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.tray-cta.ghost:hover{background:rgba(27,21,16,.04);color:var(--ink)}
+
+.tray-form{display:flex;flex-direction:column;gap:13px;padding:20px 26px 26px;overflow:auto;flex:1}
+.tray-form .tf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:420px){.tray-form .tf-row{grid-template-columns:1fr}}
+.tray-form label{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.tray-form input,.tray-form textarea{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;background:#fff;font-family:inherit;color:var(--ink);outline:none;transition:border-color .25s;resize:vertical}
+.tray-form input:focus,.tray-form textarea:focus{border-color:var(--ember)}
+
+.tray-done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;overflow:auto}
+.tray-done .big{font-family:var(--serif);font-size:32px;font-weight:500}
+.ref-chip{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--ember);border:1px dashed rgba(194,67,11,.45);padding:9px 18px;border-radius:100px}
+.wa-big{display:inline-flex;align-items:center;gap:10px;background:#1f9d4d;color:#fff;text-decoration:none;padding:16px 28px;border-radius:100px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:background .3s,transform .3s var(--ease)}
+.wa-big:hover{background:#22c15e;transform:translateY(-2px)}
+@media(max-width:640px){.tray{width:100vw}}

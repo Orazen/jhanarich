@@ -92,6 +92,27 @@ function jh_ensure_schema(PDO $pdo): void {
     try { $pdo->exec("CREATE INDEX IF NOT EXISTS Product_category_idx ON Product (category)"); } catch (Throwable $e) {}
     try { $pdo->exec("CREATE INDEX IF NOT EXISTS Enquiry_status_idx ON Enquiry (status)"); } catch (Throwable $e) {}
 
+    // Direct orders placed from the website (Order Tray).
+    // items = JSON array [{slug,name,qty,price}] — price null = on request.
+    $pdo->exec("CREATE TABLE IF NOT EXISTS OrderRequest (
+        id VARCHAR(32) PRIMARY KEY,
+        ref VARCHAR(20) NOT NULL UNIQUE,
+        name VARCHAR(200) NOT NULL,
+        phone VARCHAR(60) DEFAULT NULL,
+        email VARCHAR(200) DEFAULT NULL,
+        business VARCHAR(200) DEFAULT NULL,
+        city VARCHAR(120) DEFAULT NULL,
+        address TEXT DEFAULT NULL,
+        notes TEXT DEFAULT NULL,
+        items TEXT NOT NULL,
+        total INTEGER DEFAULT NULL,
+        source VARCHAR(20) NOT NULL DEFAULT 'website',
+        status VARCHAR(20) NOT NULL DEFAULT 'new',
+        createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )");
+    try { $pdo->exec("CREATE INDEX IF NOT EXISTS OrderRequest_status_idx ON OrderRequest (status)"); } catch (Throwable $e) {}
+    try { $pdo->exec("ALTER TABLE OrderRequest ADD COLUMN address TEXT DEFAULT NULL"); } catch (Throwable $e) {}
+
     if (!empty($c['seed_if_empty'])) {
         $n = (int)$pdo->query("SELECT COUNT(*) AS n FROM Product")->fetch()['n'];
         if ($n === 0) jh_seed_products($pdo);

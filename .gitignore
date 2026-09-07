@@ -4,6 +4,9 @@ node_modules
 next-env.d.ts
 prisma/dev.db
 prisma/dev.db-journal
+dev.db
+*.sqlite
+*.sqlite-journal
 .env
 .DS_Store
 hostinger/api/config.local.php

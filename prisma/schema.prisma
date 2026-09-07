@@ -27,6 +27,25 @@ model Product {
   @@index([category])
 }
 
+model OrderRequest {
+  id        String   @id @default(cuid())
+  ref       String   @unique
+  name      String
+  phone     String?
+  email     String?
+  business  String?
+  city      String?
+  address   String?
+  notes     String?
+  items     String
+  total     Int?
+  source    String   @default("website")
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+
+  @@index([status])
+}
+
 model Enquiry {
   id        String   @id @default(cuid())
   name      String

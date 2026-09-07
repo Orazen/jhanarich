@@ -3,6 +3,7 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/ai.php';
+require_once __DIR__ . '/mail.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') throw new RuntimeException('POST only', 405);
@@ -38,6 +39,25 @@ try {
     $text = "Hello JHANARICH! I'm {$row['name']}" . ($row['business'] ? " ({$row['business']})" : "") . ". "
           . ($row['product'] ? "I'm interested in: {$row['product']}." : ($row['line'] ? "Interested in: {$row['line']}." : ""))
           . ' ' . ($row['message'] ?: 'Please share your catalogue and pricing.');
+
+    // admin heads-up (never blocks the response)
+    try {
+        $lines = [];
+        foreach (['phone' => 'Phone', 'email' => 'Email', 'business' => 'Business', 'product' => 'Product', 'line' => 'Line'] as $k => $lbl) {
+            if ($row[$k]) $lines[] = '<b>' . $lbl . ':</b> ' . htmlspecialchars($row[$k]);
+        }
+        $html = '<div style="font-family:Georgia,serif;background:#F7F2E7;padding:28px">'
+              . '<div style="background:#1B1510;color:#F3EDE1;padding:18px 24px;border-radius:12px 12px 0 0;font-size:20px">New enquiry — ' . htmlspecialchars($row['name']) . '</div>'
+              . '<div style="background:#fff;padding:22px 24px;border-radius:0 0 12px 12px;line-height:1.8;font-size:14px;color:#1B1510">'
+              . implode('<br>', $lines)
+              . ($row['message'] ? '<br><br><b>Message:</b><br>' . nl2br(htmlspecialchars($row['message'])) : '')
+              . '<br><br><a href="https://jhanarich.com/admin/enquiries.php" style="background:#C2430B;color:#fff;padding:11px 20px;border-radius:100px;text-decoration:none;font-size:12px">OPEN IN ADMIN DASHBOARD</a>'
+              . '</div></div>';
+        jh_mail('admin@jhanarich.com', 'New enquiry — ' . $row['name'] . ($row['business'] ? ' (' . $row['business'] . ')' : ''), $html, (string)($row['email'] ?: ''));
+    } catch (Throwable $e) {
+        error_log('enquiry mail failed: ' . $e->getMessage());
+    }
+
     echo json_encode([
         'ok' => true,
         'id' => $row['id'],

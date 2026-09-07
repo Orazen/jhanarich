@@ -49,6 +49,23 @@ const DDL = [
     createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`,
   `CREATE INDEX IF NOT EXISTS Enquiry_status_idx ON Enquiry (status)`,
+  `CREATE TABLE IF NOT EXISTS OrderRequest (
+    id TEXT PRIMARY KEY,
+    ref TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    phone TEXT,
+    email TEXT,
+    business TEXT,
+    city TEXT,
+    address TEXT,
+    notes TEXT,
+    items TEXT NOT NULL,
+    total INTEGER,
+    source TEXT NOT NULL DEFAULT 'website',
+    status TEXT NOT NULL DEFAULT 'new',
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`,
+  `CREATE INDEX IF NOT EXISTS OrderRequest_status_idx ON OrderRequest (status)`,
   // migrations for pre-existing installs
   `ALTER TABLE Product ADD COLUMN price INTEGER`,
   `ALTER TABLE Product ADD COLUMN mrp INTEGER`,

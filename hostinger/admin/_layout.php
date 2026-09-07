@@ -2,7 +2,12 @@
 // Shared admin chrome.
 function jh_admin_head(string $title, string $sub): void {
     $active = basename($_SERVER['PHP_SELF']);
-    $nav = ['index.php' => '◆ Overview', 'enquiries.php' => '✉ Enquiries', 'products.php' => '▣ Products'];
+    $nav = ['index.php' => '◆ Overview', 'orders.php' => '▤ Orders', 'enquiries.php' => '✉ Enquiries', 'products.php' => '▣ Products'];
+    $ordBadge = '';
+    try {
+        $n = (int)jh_db()->query("SELECT COUNT(*) n FROM OrderRequest WHERE status = 'new'")->fetch()['n'];
+        if ($n > 0) $ordBadge = ' <span class="pill new" style="padding:2px 8px;margin-left:auto">' . $n . '</span>';
+    } catch (Throwable $e) {}
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +50,12 @@ table.admin-table{width:100%;border-collapse:collapse;font-size:14px}
 .admin-table tbody tr:hover{background:#FBF8F1}
 .pill{display:inline-flex;padding:5px 12px;border-radius:100px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
 .pill.new{background:rgba(194,67,11,.12);color:var(--ember)}
+.pill.confirmed{background:rgba(214,145,54,.16);color:#8a5a10}
+.pill.shipped{background:rgba(59,110,220,.14);color:#2f5cc0}
+.pill.cancelled{background:rgba(27,21,16,.08);color:var(--ink-faint);text-decoration:line-through}
+.order-ref{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ember);font-weight:500}
+.order-items{font-size:12px;color:var(--ink-soft);line-height:1.7}
+.order-items b{font-weight:600;color:var(--ink)}
 .pill.contacted{background:rgba(214,145,54,.16);color:#8a5a10}
 .pill.closed{background:rgba(34,150,83,.14);color:#1c7a41}
 .pill.live{background:rgba(34,150,83,.14);color:#1c7a41}
@@ -89,7 +100,7 @@ table.admin-table{width:100%;border-collapse:collapse;font-size:14px}
     <div class="brand"><img src="/assets/logo.png" alt="JHANARICH"><b>JHANARICH</b></div>
     <div class="lbl">Console</div>
     <?php foreach ($nav as $href => $label): ?>
-      <a href="<?= $href ?>" class="<?= $active === $href ? 'active' : '' ?>"><span><?= explode(' ', $label)[0] ?></span><?= preg_replace('/^[^ ]+ /', '', $label) ?></a>
+      <a href="<?= $href ?>" class="<?= $active === $href ? 'active' : '' ?>"><span><?= explode(' ', $label)[0] ?></span><?= preg_replace('/^[^ ]+ /', '', $label) ?><?= $href === 'orders.php' ? $ordBadge : '' ?></a>
     <?php endforeach; ?>
     <div class="lbl">Site</div>
     <a href="/"><span>↗</span>View website</a>
