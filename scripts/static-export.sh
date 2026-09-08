@@ -30,7 +30,6 @@ STATIC_EXPORT=1 NEXT_TELEMETRY_DISABLED=1 npx next build
 
 echo "==> 3/7 prune export artefacts"
 rm -rf out/admin out/api
-find out -name "*.txt" -delete
 
 echo "==> 4/6 point client fetches at PHP endpoints"
 node scripts/rewrite-urls.mjs

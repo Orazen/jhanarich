@@ -31,6 +31,42 @@ function waEnq(name, cat) {
 
 const inr = (n) => "₹" + n.toLocaleString("en-IN");
 
+const FAQS = [
+  {
+    q: "Where is JHANARICH located?",
+    a: "Our factory and office are in Madhurawada, Visakhapatnam, Andhra Pradesh 530048, India. Visitors and partners are welcome — call +91 9440 121743 to schedule a visit.",
+  },
+  {
+    q: "What does JHANARICH manufacture?",
+    a: "JHANARICH (Jhanarich Private Limited) manufactures premium triply cookware, non-stick cookware, stainless steel vessels, cookware handles and plastic kitchen products — 26+ SKUs across five product lines, for homes, hotels, restaurants and commercial kitchens.",
+  },
+  {
+    q: "How do I place a wholesale order?",
+    a: "Tap \u201C+ Order\u201D on any product to build an order request, or message us on WhatsApp at +91 9440 121743. We confirm pricing and delivery timelines within one business day. Wholesale pricing applies to bulk quantities.",
+  },
+  {
+    q: "Do you offer OEM and private-label manufacturing?",
+    a: "Yes. We manufacture to your specification — your logo, your colours, your packaging — at production scale. Flexible MOQs for new partners. Ask for the OEM deck on WhatsApp or email admin@jhanarich.com.",
+  },
+  {
+    q: "What is the minimum order quantity (MOQ)?",
+    a: "MOQ varies by product and finish. Share your requirement on WhatsApp (+91 9440 121743) or via the enquiry form and we'll respond with MOQ, pricing and lead times within one business day.",
+  },
+  {
+    q: "Is JHANARICH a registered company? Can you export?",
+    a: "Yes — Jhanarich Private Limited, registered with the Ministry of Corporate Affairs (CIN U46909AP2025PTC119851), GST-registered (GSTIN 37AAGCJ9332F1ZF) with export documentation ready. We supply domestic and international buyers.",
+  },
+];
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 function priceBlock(p) {
   if (p.price) {
     const off = p.mrp ? Math.round((1 - p.price / p.mrp) * 100) : 0;
@@ -118,10 +154,10 @@ export default function Home({ products }) {
               <span className="line"><span className="stroke">For&nbsp;Fire.</span></span>
               <span className="line"><span>Built&nbsp;<i>for&nbsp;life.</i></span></span>
             </h1>
-            <p className="hero-sub">Premium triply, non-stick and stainless steel cookware — engineered for households, hotels, restaurants and commercial kitchens. Superior craftsmanship, modern design, uncompromising durability.</p>
+            <p className="hero-sub">Triply, non-stick and stainless steel cookware — manufactured in our own Visakhapatnam factory for distributors, retailers, hotels and kitchen brands. Wholesale pricing · OEM &amp; private label · GST-registered exports.</p>
             <div className="hero-actions">
-              <a href="#products" className="btn btn-primary" data-hover>Explore the range <Arrow /></a>
-              <a href="#contact" className="btn btn-ghost" data-hover>Request catalogue</a>
+              <a href="#contact" className="btn btn-primary" data-hover>Get free catalogue <Arrow /></a>
+              <a href="#products" className="btn btn-ghost" data-hover>Browse the range</a>
             </div>
           </div>
           <div className="hero-stage" id="heroStage">
@@ -153,21 +189,13 @@ export default function Home({ products }) {
         <div className="scroll-hint">Scroll</div>
       </header>
 
-      {/* MARQUEE */}
-      <div className="marquee" aria-hidden="true">
-        <div className="marquee-track">
-          <span>Triply Cookware <i className="sep">✦</i> <i>Non-Stick</i> <i className="sep">✦</i> Stainless Steel <i className="sep">✦</i> <i>Cookware Handles</i> <i className="sep">✦</i> Plastic Products <i className="sep">✦</i> <i>OEM &amp; Private Label</i> <i className="sep">✦</i></span>
-          <span>Triply Cookware <i className="sep">✦</i> <i>Non-Stick</i> <i className="sep">✦</i> Stainless Steel <i className="sep">✦</i> <i>Cookware Handles</i> <i className="sep">✦</i> Plastic Products <i className="sep">✦</i> <i>OEM &amp; Private Label</i> <i className="sep">✦</i></span>
-        </div>
-      </div>
-
       {/* TRUST TICKER */}
       <div className="trust-ticker" aria-hidden="true">
         <div className="trust-inner">
-          {["3-layer coating","PFOA free","Induction bottom","Food-grade steel","ISO-style QC","OEM ready"].map((t,i)=>(
+          {["Own factory in Visakhapatnam","GST-registered exporter","3-layer triply bonding","PFOA free coatings","Induction ready","OEM & private label","Reply within 1 business day"].map((t,i)=>(
             <span key={i}><i>◆</i>{t}</span>
           ))}
-          {["3-layer coating","PFOA free","Induction bottom","Food-grade steel","ISO-style QC","OEM ready"].map((t,i)=>(
+          {["Own factory in Visakhapatnam","GST-registered exporter","3-layer triply bonding","PFOA free coatings","Induction ready","OEM & private label","Reply within 1 business day"].map((t,i)=>(
             <span key={"b"+i}><i>◆</i>{t}</span>
           ))}
         </div>
@@ -208,7 +236,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">03 — Collections</div>
+              <div className="sec-num rv">02 — Collections</div>
               <h2 className="rv rv-d1">Three series.<br /><i>One signature.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Curated families, engineered for different fires — from everyday rotis to hotel line kitchens. Tap a series for specs.</p>
@@ -288,7 +316,7 @@ export default function Home({ products }) {
         <div className="triply-stage" id="triplyStage">
           <div className="triply-pin">
             <div className="triply-head">
-              <div className="sec-num">05 — The Technology</div>
+            <div className="sec-num rv">04 — The Technology</div>
               <h2>Three layers. <i>One bond.</i></h2>
             </div>
             <div className="triply-showcase">
@@ -335,7 +363,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">06 — The Range</div>
+              <div className="sec-num rv">05 — The Range</div>
               <h2 className="rv rv-d1">Every pan.<br /><i>Every purpose.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">From casseroles to dosa tawas, frypans to spice boxes — engineered across five product lines for home and professional kitchens.</p>
@@ -400,7 +428,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">07 — Why JHANARICH</div>
+              <div className="sec-num rv">06 — Why JHANARICH</div>
               <h2 className="rv rv-d1">Built different,<br /><i>on purpose.</i></h2>
             </div>
           </div>
@@ -418,7 +446,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">08 — Manufacturing</div>
+              <div className="sec-num rv">07 — Manufacturing</div>
               <h2 className="rv rv-d1">From raw steel<br /><i>to your stove.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Modern machinery, precision technology and experienced professionals monitoring every stage of production at scale.</p>
@@ -439,9 +467,9 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="oem-grid">
             <div>
-              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>09 — OEM &amp; Private Label</div>
+              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>08 — OEM &amp; Private Label</div>
               <h2 className="rv rv-d1">Your brand.<br /><i>Our forge.</i></h2>
-              <p className="rv rv-d2">Launch or expand your cookware line without building a factory. We manufacture to your specification — your logo, your colours, your packaging — at production scale.</p>
+              <p className="rv rv-d2">Launch or expand your cookware line without building a factory. We manufacture to your specification — your logo, your colours, your packaging — at production scale. We onboard a limited number of new OEM partners each quarter, so every account gets full attention.</p>
               <ul className="oem-list rv rv-d3">
                 <li>Custom branding &amp; logo etching <span>→</span></li>
                 <li>Bespoke packaging development <span>→</span></li>
@@ -463,30 +491,38 @@ export default function Home({ products }) {
       {/* CATALOG BAND */}
       <section className="catalog-band">
         <div className="wrap" style={{ textAlign: "center" }}>
-          <div className="sec-num rv" style={{ justifyContent: "center" }}>10 — Spec Sheets</div>
+          <div className="sec-num rv" style={{ justifyContent: "center" }}>09 — The Catalogue</div>
           <h2 className="rv rv-d1" style={{ marginBottom: "clamp(36px,5vw,64px)" }}>Retail-ready <i>catalogues.</i></h2>
           <div className="posters">
             <div className="poster rv"><img src="/assets/wa-frypan-poster.jpg" alt="Triply fry pan spec sheet" loading="lazy" /></div>
             <div className="poster rv rv-d1"><img src="/assets/wa-triply-range.jpg" alt="Triply cookware range spec sheet" loading="lazy" /></div>
             <div className="poster rv rv-d2"><img src="/assets/wa-elevate-ad.jpg" alt="Elevate your kitchen campaign" loading="lazy" /></div>
           </div>
+          <div className="hero-actions rv rv-d3" style={{ justifyContent: "center", marginTop: "clamp(30px,4vw,50px)" }}>
+            <a href={`${WA}?text=${encodeURIComponent("Hello JHANARICH! Please send me the complete product catalogue with wholesale pricing.")}`} target="_blank" rel="noopener" className="btn btn-primary" data-hover>Get the full catalogue on WhatsApp <Arrow /></a>
+          </div>
         </div>
       </section>
 
-      {/* GLOBAL + SUSTAIN */}
-      <section>
+      {/* FAQ */}
+      <section className="faq" id="faq">
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">11 — Reach &amp; Responsibility</div>
-              <h2 className="rv rv-d1">Global markets,<br /><i>cleaner methods.</i></h2>
+              <div className="sec-num rv">10 — FAQ</div>
+              <h2 className="rv rv-d1">Questions,<br /><i>answered.</i></h2>
             </div>
+            <p className="sec-desc rv rv-d2">Everything buyers usually ask before their first order. Anything else — one WhatsApp message away.</p>
           </div>
-          <div className="glob-grid">
-            <div className="glob-card rv"><h3>Serving global markets</h3><p>Trusted by distributors, retailers, wholesalers, hospitality businesses and kitchenware brands across domestic and international markets — partnerships built on reliability and quality.</p></div>
-            <div className="glob-card rv rv-d1"><h3>Sustainability commitment</h3><p>Environmentally responsible manufacturing: reducing waste, improving resource efficiency and promoting sustainable production methods, continuously.</p></div>
-            <div className="glob-card rv rv-d2"><h3>Long-term partners</h3><p>We measure success in decades, not orders — customer satisfaction and dependable supply are the foundation of everything we make.</p></div>
+          <div className="faq-list">
+            {FAQS.map((f, i) => (
+              <details className="faq-item rv" key={i} open={i === 0}>
+                <summary>{f.q}<span className="faq-x" aria-hidden="true">+</span></summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
           </div>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
         </div>
       </section>
 
@@ -495,7 +531,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">12 — Contact</div>
+              <div className="sec-num rv">11 — Contact</div>
               <h2 className="rv rv-d1">Let&apos;s make<br /><i>something hot.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Discuss your requirements, request a product catalogue, or explore custom manufacturing solutions.</p>
@@ -553,7 +589,7 @@ export default function Home({ products }) {
       {/* CTA BAND */}
       <section className="cta-band">
         <div className="wrap">
-          <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>13 — Start today</div>
+          <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>12 — Start today</div>
           <h2 className="rv rv-d1">Ready when<br /><i>you are.</i></h2>
           <p className="rv rv-d2">Catalogues, samples, OEM conversations — one message on WhatsApp and our team responds within a business day.</p>
           <div className="hero-actions rv rv-d3">
@@ -588,6 +624,9 @@ export default function Home({ products }) {
         <div className="foot-bot">
           <span>© {new Date().getFullYear()} JHANARICH — Visakhapatnam, India</span>
           <span>Triply · Non-stick · Stainless · OEM</span>
+        </div>
+        <div className="foot-legal">
+          Jhanarich Private Limited · CIN U46909AP2025PTC119851 · GSTIN 37AAGCJ9332F1ZF · # 27-17/9/8, Ayodhya Nagar, Madhurawada, Visakhapatnam, Andhra Pradesh 530048, India
         </div>
       </footer>
 
