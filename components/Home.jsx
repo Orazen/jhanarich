@@ -9,11 +9,11 @@ const CAT_LABEL = { triply: "Triply", nonstick: "Non-Stick", steel: "Stainless S
 const CAT_ORDER = ["triply", "nonstick", "steel", "handles", "plastic"];
 
 const SVG_ICONS = {
-  "svg:ss-handles": `<svg viewBox="0 0 120 120"><path d="M20 78 Q18 46 44 40 L92 32 Q104 30 106 40 Q108 50 96 52 L52 60 Q36 63 36 78 Q36 88 24 88 Q20 88 20 78Z" fill="none" stroke="#1B1510" stroke-width="3"/><circle cx="26" cy="82" r="5" fill="none" stroke="#C2430B" stroke-width="3"/></svg>`,
+  "svg:ss-handles": `<svg viewBox="0 0 120 120"><path d="M20 78 Q18 46 44 40 L92 32 Q104 30 106 40 Q108 50 96 52 L52 60 Q36 63 36 78 Q36 88 24 88 Q20 88 20 78Z" fill="none" stroke="#1B1510" stroke-width="3"/><circle cx="26" cy="82" r="5" fill="none" stroke="#B08D3F" stroke-width="3"/></svg>`,
   "svg:casted": `<svg viewBox="0 0 120 120"><path d="M22 76 Q22 50 46 44 L90 34" fill="none" stroke="#1B1510" stroke-width="3" stroke-linecap="round"/><path d="M90 34 Q104 32 106 42 Q107 50 96 52 L70 57" fill="none" stroke="#1B1510" stroke-width="10" stroke-linecap="round" opacity=".25"/></svg>`,
   "svg:bakelite": `<svg viewBox="0 0 120 120"><path d="M24 78 Q22 52 46 46 L88 36" fill="none" stroke="#1B1510" stroke-width="3" stroke-linecap="round"/><path d="M88 36 Q106 33 108 44 Q109 54 96 56 L74 60" fill="none" stroke="#4a3208" stroke-width="11" stroke-linecap="round"/></svg>`,
-  "svg:spice": `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="42" fill="none" stroke="#1B1510" stroke-width="3"/><circle cx="60" cy="60" r="30" fill="none" stroke="#C2430B" stroke-width="2" stroke-dasharray="4 5"/><circle cx="60" cy="34" r="4" fill="#1B1510"/><circle cx="83" cy="72" r="4" fill="#1B1510"/><circle cx="37" cy="72" r="4" fill="#1B1510"/></svg>`,
-  "svg:packing": `<svg viewBox="0 0 120 120"><rect x="26" y="44" width="68" height="44" rx="8" fill="none" stroke="#1B1510" stroke-width="3"/><path d="M26 60 h68" stroke="#1B1510" stroke-width="2"/><rect x="50" y="34" width="20" height="10" rx="3" fill="none" stroke="#C2430B" stroke-width="2.5"/></svg>`,
+  "svg:spice": `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="42" fill="none" stroke="#1B1510" stroke-width="3"/><circle cx="60" cy="60" r="30" fill="none" stroke="#B08D3F" stroke-width="2" stroke-dasharray="4 5"/><circle cx="60" cy="34" r="4" fill="#1B1510"/><circle cx="83" cy="72" r="4" fill="#1B1510"/><circle cx="37" cy="72" r="4" fill="#1B1510"/></svg>`,
+  "svg:packing": `<svg viewBox="0 0 120 120"><rect x="26" y="44" width="68" height="44" rx="8" fill="none" stroke="#1B1510" stroke-width="3"/><path d="M26 60 h68" stroke="#1B1510" stroke-width="2"/><rect x="50" y="34" width="20" height="10" rx="3" fill="none" stroke="#B08D3F" stroke-width="2.5"/></svg>`,
 };
 
 const Arrow = () => (
@@ -21,6 +21,9 @@ const Arrow = () => (
 );
 const WaIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.8-5.1c-.6-1-.9-2.1-.6-2.9.1-.4.4-.8.7-1.1.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.2.2-.2.4-.1.6a8 8 0 0 0 3.4 2.9c.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.3.2.4.3.4.5s0 .9-.1 1.3z"/></svg>
+);
+const Check = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><path d="M4.5 12.5l5 5 10-11"/></svg>
 );
 
 const SIZES = {"honeycomb-fry-pan":"18–32 cm","triply-casserole":"18–28 cm","honeycomb-tawa":"24–32 cm","triply-sauce-pan":"14–16 cm","triply-fry-pan":"18–32 cm","dosa-tawa":"26–32 cm","triply-set":"Full range","triply-tope":"14–28 cm","granite-fry-pan":"18–30 cm","nonstick-casserole":"18–26 cm","nonstick-kadai":"18–28 cm","grill-pan":"24–28 cm","fry-pan-set":"3 sizes","fry-pan-set-red":"3 sizes","nonstick-fry-pan":"18–30 cm","nonstick-tawa":"24–28 cm","steel-cups-plates":"Assorted","ss-casserole":"18–28 cm","ss-tope":"14–28 cm","steel-bowls":"Assorted","steel-tumblers":"Assorted","ss-handles":"All rivet sizes","casted-handles":"All rivet sizes","bakelite-handles":"All rivet sizes","spice-boxes":"Assorted","packing-boxes":"Assorted"};
@@ -82,6 +85,29 @@ function priceBlock(p) {
   return <div className="price-row"><span className="moq-note">Price on request</span></div>;
 }
 
+const FEATURES = [
+  {
+    t: "Premium Quality Materials",
+    s: "Food-grade steel, certified coatings",
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2.5l7.5 3v6c0 5-3.2 8.6-7.5 10-4.3-1.4-7.5-5-7.5-10v-6z"/><path d="M8.8 12l2.2 2.2 4.2-4.6"/></svg>,
+  },
+  {
+    t: "Induction & Gas Compatible",
+    s: "Performs on every cooktop",
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="13" r="3.2"/><path d="M12 2v3M5 6l2 2M19 6l-2 2M3 21h18"/></svg>,
+  },
+  {
+    t: "Healthy Cooking",
+    s: "Less oil, more nutrition",
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 4C11 4 5 9 5 16c0 1.6.4 3 1 4 6 0 14-4 14-16z"/><path d="M5 20c3-6 7-9 11-11"/></svg>,
+  },
+  {
+    t: "Proudly Made in India",
+    s: "Manufactured in Visakhapatnam",
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M5 21V4M5 4h13l-2.5 4L18 12H5"/></svg>,
+  },
+];
+
 export default function Home({ products }) {
   const [activeCat, setActiveCat] = useState("all");
 
@@ -90,6 +116,12 @@ export default function Home({ products }) {
     const l = typeof window !== "undefined" ? window.__lenis : null;
     if (l) l.scrollTo("#products", { offset: -60, duration: 1.6 });
     else document.querySelector("#products")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const goOEM = () => {
+    const l = typeof window !== "undefined" ? window.__lenis : null;
+    if (l) l.scrollTo("#oem", { offset: -60, duration: 1.6 });
+    else document.querySelector("#oem")?.scrollIntoView({ behavior: "smooth" });
   };
 
   // reads the LIVE price from the card DOM so the tray matches what the
@@ -121,7 +153,7 @@ export default function Home({ products }) {
       {/* PRELOADER */}
       <div id="loader">
         <div className="mark"><img src="/assets/logo.png" alt="JHANARICH" /></div>
-        <div className="sub">Forged for fire</div>
+        <div className="sub">Cookware for a better tomorrow</div>
         <div className="bar"><i></i></div>
       </div>
 
@@ -132,62 +164,48 @@ export default function Home({ products }) {
 
       {/* NAV */}
       <nav id="nav">
-        <a href="#top" className="logo" data-hover><img src="/assets/logo.png" alt="JHANARICH — home" /></a>
+        <a href="#top" className="logo" data-hover>
+          <img src="/assets/logo.png" alt="JHANARICH — home" />
+          <span className="wordmark"><b>JHANARICH</b><span>Cookware for a better tomorrow</span></span>
+        </a>
         <div className="nav-links">
-          <a href="#about" data-hover>Story</a>
-          <a href="#triply" data-hover>Triply</a>
+          <a href="#top" data-hover>Home</a>
           <a href="#products" data-hover>Products</a>
-          <a href="#process" data-hover>Process</a>
-          <a href="#oem" data-hover>OEM</a>
-          <a href="#contact" className="nav-cta" data-hover>Get Catalogue</a>
+          <a href="#process" data-hover>Manufacturing</a>
+          <a href="#oem" data-hover>OEM / Wholesale</a>
+          <a href="#about" data-hover>About</a>
+          <a href="#contact" className="nav-cta" data-hover>Enquiry</a>
         </div>
       </nav>
 
       {/* HERO */}
       <header className="hero" id="top">
-        <div className="hero-bg"></div>
-        <div className="hero-grid">
-          <div>
-            <div className="kicker">Kitchenware Manufacturer — Visakhapatnam, India</div>
-            <h1>
-              <span className="line"><span>Forged</span></span>
-              <span className="line"><span className="stroke">For&nbsp;Fire.</span></span>
-              <span className="line"><span>Built&nbsp;<i>for&nbsp;life.</i></span></span>
-            </h1>
-            <p className="hero-sub">Triply, non-stick and stainless steel cookware — manufactured in our own Visakhapatnam factory for distributors, retailers, hotels and kitchen brands. Wholesale pricing · OEM &amp; private label · GST-registered exports.</p>
+        <div className="hero-bg"><img src="/assets/wa-frypan-lifestyle.jpg" alt="JHANARICH cookware in a modern kitchen" /></div>
+        <div className="hero-shade"></div>
+        <div className="hero-inner">
+          <div className="hero-copy">
+            <div className="kicker">Indian Craftsmanship | Global Standards</div>
+            <h1>Forged for Fire.<br /><i>Built for Life.</i></h1>
+            <p className="hero-sub">Premium cookware designed for modern kitchens. Durable. Healthy. Beautiful. Made in India — in our own Visakhapatnam factory.</p>
             <div className="hero-actions">
-              <a href="#contact" className="btn btn-primary" data-hover>Get free catalogue <Arrow /></a>
-              <a href="#products" className="btn btn-ghost" data-hover>Browse the range</a>
+              <a href="#products" className="btn btn-primary" data-hover>Explore Products <Arrow /></a>
+              <a href="#contact" className="btn btn-ghost-light" data-hover>Request Catalogue</a>
             </div>
           </div>
-          <div className="hero-stage" id="heroStage">
-            <div className="flame"><i></i><i></i><i></i><i></i></div>
-            <div className="stage-disc"></div>
-            <img className="medallion" src="/assets/logo.png" alt="" aria-hidden="true" />
-            <div className="steam" aria-hidden="true"><i></i><i></i><i></i></div>
-            <div className="callout co1" style={{ "--d": "2s" }} aria-hidden="true"><i></i><span>Triply bonded core</span></div>
-            <div className="callout co2" style={{ "--d": "2.5s" }} aria-hidden="true"><i></i><span>Honeycoat non-stick</span></div>
-            <div className="callout co3" style={{ "--d": "3s" }} aria-hidden="true"><i></i><span>Induction ready</span></div>
-            <div className="pan pan-1" data-depth="0.5"><img src="/assets/image6.jpg" alt="Triply casserole with glass lid" /></div>
-            <div className="pan pan-2" data-depth="1"><img src="/assets/pan-hero.png" alt="JHANARICH triply honeycomb fry pan" /></div>
-            <div className="pan pan-3" data-depth="0.3"><img src="/assets/image9.jpg" alt="Triply dosa tawa" /></div>
-            <svg className="orbit-badge" viewBox="0 0 120 120">
-              <defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" /></defs>
-              <circle className="core" cx="60" cy="60" r="7" />
-              <text><textPath href="#circ">Triply Bonded • PFOA Free • Induction Ready •{"\u00A0"}</textPath></text>
-            </svg>
-          </div>
         </div>
-        <div className="hero-meta">
-          <div className="item"><b data-count="26">0</b>SKUs in catalogue</div>
-          <div className="item"><b><span data-count="5">0</span><em style={{ fontStyle: "normal" }}>+</em></b>Product lines</div>
-          <div className="item"><b data-count="3">0</b>Layer triply core</div>
-          <div className="item"><b><span data-count="100">0</span>%</b>QC tested</div>
-          <div className="item"><b style={{ fontSize: "clamp(15px,1.4vw,19px)", lineHeight: 1.4 }}>EST. VISAKHAPATNAM<br />ANDHRA PRADESH — IN</b></div>
-        </div>
-        <div className="hero-side">Forged in Visakhapatnam — 530048 — India</div>
-        <div className="scroll-hint">Scroll</div>
       </header>
+
+      {/* FEATURE STRIP */}
+      <div className="fstrip">
+        <div className="frow">
+          {FEATURES.map((f, i) => (
+            <div className="f-item rv" key={i} style={{ transitionDelay: `${i * 90}ms` }}>
+              <span className="fic">{f.icon}</span>
+              <div><b>{f.t}</b><span>{f.s}</span></div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* TRUST TICKER */}
       <div className="trust-ticker" aria-hidden="true">
@@ -201,159 +219,53 @@ export default function Home({ products }) {
         </div>
       </div>
 
-      {/* ABOUT */}
-      <section id="about">
-        <div className="wrap">
-          <div className="sec-head">
-            <div>
-              <div className="sec-num rv">01 — Our Story</div>
-              <h2 className="rv rv-d1">Craft you can<br /><i>cook with.</i></h2>
-            </div>
-            <div className="heat-line" style={{ flex: 1, alignSelf: "center", minWidth: 120 }}></div>
-          </div>
-          <div className="about-grid">
-            <div className="about-copy">
-              <p className="rv"><strong>JHANARICH</strong> has been dedicated to manufacturing premium kitchen utensils that make cooking easier, safer and more enjoyable — for modern homes, hotels, restaurants and commercial kitchens across domestic and international markets.</p>
-              <p className="rv rv-d1">Our state-of-the-art production facility, skilled workforce and strict quality-control processes ensure every product meets international standards of excellence — from raw material selection to final packaging.</p>
-              <p className="rv rv-d2">We build long-term partnerships with distributors, retailers, wholesalers, hospitality businesses and kitchenware brands through reliability, quality and customer satisfaction.</p>
-              <div className="stats">
-                <div className="stat rv"><b><span data-count="26">0</span><em>+</em></b><span>SKUs manufactured</span></div>
-                <div className="stat rv rv-d1"><b><span data-count="5">0</span></b><span>Product lines</span></div>
-                <div className="stat rv rv-d2"><b><span data-count="3">0</span></b><span>Layer bonded core</span></div>
-                <div className="stat rv rv-d3"><b><span data-count="100">0</span><em>%</em></b><span>Rigorously tested</span></div>
-              </div>
-            </div>
-            <div className="about-imgs rv rv-d2">
-              <div className="main"><img src="/assets/image2.jpg" alt="JHANARICH triply cookware family" loading="lazy" /></div>
-              <div className="inset"><img src="/assets/image6.jpg" alt="JHANARICH triply casserole" loading="lazy" /></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* COLLECTIONS */}
+      {/* PRODUCT RANGES */}
       <section id="collections">
         <div className="wrap">
-          <div className="sec-head">
+          <div className="sec-head center">
             <div>
-              <div className="sec-num rv">02 — Collections</div>
-              <h2 className="rv rv-d1">Three series.<br /><i>One signature.</i></h2>
+              <div className="sec-num rv">01 — Our Products</div>
+              <h2 className="rv rv-d1">A complete range<br /><i>for every kitchen.</i></h2>
             </div>
-            <p className="sec-desc rv rv-d2">Curated families, engineered for different fires — from everyday rotis to hotel line kitchens. Tap a series for specs.</p>
+            <p className="sec-desc rv rv-d2">Designed for homes, hotels and professional kitchens. Built with quality. Trusted worldwide.</p>
           </div>
           <div className="col-grid">
-            <button onClick={() => goRange("triply")} className="col-card" data-cursor="Shop triply" data-hover>
-              <img src="/assets/catalog/family.jpg" alt="Triply series" data-parallax />
+            <button onClick={() => goRange("triply")} className="col-card rv" data-cursor="View range" data-hover>
+              <img src="/assets/catalog/family.jpg" alt="Triply cookware range" />
               <span className="col-tag">Bestseller</span>
               <div className="col-info">
-                <div><span className="no">SERIES — 01 · CODES JRCH/JRCT</span><h3>The Triply Series</h3><p>Bonded steel-aluminium-steel. Even heat, forever build. Sizes 14–32 cm.</p></div>
-                <span className="col-arrow"><Arrow /></span>
+                <h3>Triply Cookware</h3>
+                <p>Superior heat distribution for perfect cooking.</p>
+                <span className="col-more">View Range <Arrow /></span>
               </div>
             </button>
-            <button onClick={() => goRange("nonstick")} className="col-card" data-cursor="Shop non-stick" data-hover>
-              <img src="/assets/catalog/nonstick-set.jpg" alt="Non-stick series" data-parallax />
+            <button onClick={() => goRange("nonstick")} className="col-card rv" data-cursor="View range" data-hover>
+              <img src="/assets/catalog/nonstick-set.jpg" alt="Non-stick cookware range" />
               <span className="col-tag">PFOA free</span>
               <div className="col-info">
-                <div><span className="no">SERIES — 02 · CODE JRCN</span><h3>The Non-Stick Series</h3><p>Three-layer release, granite &amp; spatter finishes, low-oil cooking.</p></div>
-                <span className="col-arrow"><Arrow /></span>
+                <h3>Non-Stick Cookware</h3>
+                <p>Cook healthy, clean easy, lasts longer.</p>
+                <span className="col-more">View Range <Arrow /></span>
               </div>
             </button>
-            <button onClick={() => goRange("steel")} className="col-card" data-cursor="Shop steel" data-hover>
-              <img src="/assets/catalog/saucepan.jpg" alt="Stainless steel series" data-parallax />
+            <button onClick={() => goRange("steel")} className="col-card rv" data-cursor="View range" data-hover>
+              <img src="/assets/catalog/saucepan.jpg" alt="Stainless steel essentials" />
               <span className="col-tag">Food-grade</span>
               <div className="col-info">
-                <div><span className="no">SERIES — 03</span><h3>The Steel Essentials</h3><p>Mirror-polished serveware and deep-drawn daily vessels.</p></div>
-                <span className="col-arrow"><Arrow /></span>
+                <h3>Stainless Steel Essentials</h3>
+                <p>Everyday utensils for a smarter kitchen.</p>
+                <span className="col-more">View Range <Arrow /></span>
               </div>
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* CREDENTIALS / ATTRACTION BAND */}
-      <section className="cred">
-        <div className="wrap">
-          <div className="sec-head" style={{ marginBottom: "clamp(26px,3.4vw,40px)" }}>
-            <div>
-              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>03 — Verified Manufacturer</div>
-              <h2 className="rv rv-d1" style={{ color: "var(--paper)", fontSize: "clamp(34px,4.6vw,66px)" }}>Registered. Audited.<br /><i style={{ color: "var(--gold)" }}>Ready to ship.</i></h2>
-            </div>
-            <p className="sec-desc rv rv-d2" style={{ color: "rgba(243,237,225,.6)" }}>Not a reseller — we forge, coat and QC every pan under our own roof in Visakhapatnam.</p>
-          </div>
-          <div className="cred-grid">
-            <div className="cred-item rv">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M9 12l2 2 4-5m5 3a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/></svg>
-              <b>Registered Private Limited</b>
-              <span>Ministry of Corporate Affairs<br />CIN U46909AP2025PTC119851</span>
-            </div>
-            <div className="cred-item rv rv-d1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>
-              <b>GST Registered</b>
-              <span>GSTIN 37AAGCJ9332F1ZF<br />Export documentation ready</span>
-            </div>
-            <div className="cred-item rv rv-d2">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              <b>8-Range Catalogue</b>
-              <span>8 product codes · sizes 14–32<br />Triply, Honeycomb, Non-stick</span>
-            </div>
-            <div className="cred-item rv rv-d3">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.4 4.6 2.5 2.5 0 0 1-1.4-.4M8 12a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm8 7a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zM8 12l10 7M8 7l10 7"/></svg>
-              <b>OEM &amp; Private Label</b>
-              <span>Your brand, your colours<br />Custom packaging at scale</span>
-            </div>
-          </div>
-          <div className="cred-logos">
-            <span className="mark"><img src="/assets/logo.png" alt="" />Jhanarich Private Limited</span>
-            <span className="mark">Forged in Visakhapatnam, India</span>
-            <span className="mark">GSTIN 37AAGCJ9332F1ZF</span>
-            <a className="mark" href="#contact" data-hover style={{ textDecoration: "none", cursor: "pointer" }}>Verify with us →</a>
-          </div>
-        </div>
-      </section>
-
-      {/* TRIPLY SIGNATURE */}
-      <section className="triply-sec" id="triply">
-        <div className="triply-stage" id="triplyStage">
-          <div className="triply-pin">
-            <div className="triply-head">
-            <div className="sec-num rv">04 — The Technology</div>
-              <h2>Three layers. <i>One bond.</i></h2>
-            </div>
-            <div className="triply-showcase">
-              <div className="heatpan-wrap">
-                <div className="heat-stage" aria-hidden="true"></div>
-                <img className="heatpan" id="heatPan" src="/assets/pan-hero.png" alt="JHANARICH triply honeycomb fry pan" />
-                <div className="rings" id="heatRings" aria-hidden="true"><i></i><i></i><i></i></div>
-                <div className="bond-flash" id="bondFlash" aria-hidden="true"></div>
+            <button onClick={goOEM} className="col-card rv" data-cursor="Partner with us" data-hover>
+              <img src="/assets/wa-brand-poster.jpg" alt="OEM and private label cookware" />
+              <span className="col-tag">For brands</span>
+              <div className="col-info">
+                <h3>OEM &amp; Private Label</h3>
+                <p>Partner with us for customised solutions.</p>
+                <span className="col-more">Learn More <Arrow /></span>
               </div>
-              <div className="triply-stack">
-                <div className="layer layer-steel-top" id="lTop">
-                  <span className="tag right">18/8 Stainless Steel — food-safe cooking surface</span>
-                  <span className="idx">01</span>
-                </div>
-                <div className="layer layer-core" id="lMid">
-                  <span className="tag left">Aluminium core — even heat, no hot spots</span>
-                  <span className="idx">02</span>
-                </div>
-                <div className="layer layer-steel-bot" id="lBot">
-                  <span className="tag right">Induction-ready magnetic steel</span>
-                  <span className="idx">03</span>
-                </div>
-              </div>
-            </div>
-            <div className="spec-strip">
-              <span className="spec"><i>◆</i>20 / 22 / 24 / 26 / 28 cm</span>
-              <span className="spec"><i>◆</i>Riveted SS handle</span>
-              <span className="spec"><i>◆</i>Works on all cooktops</span>
-              <span className="spec"><i>◆</i>Oven safe</span>
-              <span className="spec"><i>◆</i>Dishwasher safe</span>
-              <a className="spec wa-link" href={`${WA}?text=${encodeURIComponent("Hello JHANARICH! I'm interested in your Triply range — please share the catalogue and pricing.")}`} target="_blank" rel="noopener" data-hover><i style={{ color: "#22c15e" }}>✆</i>Enquire on WhatsApp</a>
-            </div>
-            <div className="triply-caption">
-              <div className="tcap" id="c1"><b>Food-safe surface</b><p>Food-grade stainless steel cooking surface — corrosion resistant, non-reactive, safe for all foods.</p></div>
-              <div className="tcap" id="c2"><b>Even-heating core</b><p>A pure aluminium core spreads heat edge to edge. No hot spots, no scorching — better cooking results.</p></div>
-              <div className="tcap" id="c3"><b>Induction ready</b><p>Magnetic stainless steel base locks onto induction, gas and electric cooktops with full efficiency.</p></div>
-            </div>
+            </button>
           </div>
         </div>
       </section>
@@ -361,9 +273,9 @@ export default function Home({ products }) {
       {/* PRODUCTS */}
       <section id="products">
         <div className="wrap">
-          <div className="sec-head">
+          <div className="sec-head center">
             <div>
-              <div className="sec-num rv">05 — The Range</div>
+              <div className="sec-num rv">02 — The Full Range</div>
               <h2 className="rv rv-d1">Every pan.<br /><i>Every purpose.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">From casseroles to dosa tawas, frypans to spice boxes — engineered across five product lines for home and professional kitchens.</p>
@@ -423,33 +335,60 @@ export default function Home({ products }) {
         </div>
       </section>
 
-      {/* WHY US */}
-      <section className="why">
+      {/* ABOUT */}
+      <section id="about">
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">06 — Why JHANARICH</div>
-              <h2 className="rv rv-d1">Built different,<br /><i>on purpose.</i></h2>
+              <div className="sec-num rv">03 — Our Story</div>
+              <h2 className="rv rv-d1">Craft you can<br /><i>cook with.</i></h2>
+            </div>
+            <p className="sec-desc rv rv-d2">Premium kitchen utensils manufactured in Visakhapatnam for homes, hotels, restaurants and commercial kitchens worldwide.</p>
+          </div>
+          <div className="about-grid">
+            <div className="about-copy">
+              <p className="rv"><strong>JHANARICH</strong> is dedicated to manufacturing premium kitchen utensils that make cooking easier, safer and more enjoyable — for modern homes, hotels, restaurants and commercial kitchens across domestic and international markets.</p>
+              <p className="rv rv-d1">Our state-of-the-art production facility, skilled workforce and strict quality-control processes ensure every product meets international standards of excellence — from raw material selection to final packaging.</p>
+              <p className="rv rv-d2">We build long-term partnerships with distributors, retailers, wholesalers, hospitality businesses and kitchenware brands through reliability, quality and customer satisfaction.</p>
+              <div className="cred-inline rv rv-d3">
+                <span>CIN U46909AP2025PTC119851</span>
+                <span>GSTIN 37AAGCJ9332F1ZF</span>
+                <span>Export-ready</span>
+              </div>
+            </div>
+            <div className="about-imgs rv rv-d2">
+              <div className="main"><img src="/assets/image2.jpg" alt="JHANARICH triply cookware family" loading="lazy" /></div>
+              <div className="inset"><img src="/assets/image6.jpg" alt="JHANARICH triply casserole" loading="lazy" /></div>
             </div>
           </div>
-          <div className="why-grid">
-            <div className="why-card rv"><div className="ember-bar"></div><div className="n">A / 01</div><h3>Premium quality materials</h3><p>Food-grade stainless steel and high-grade coatings for long-lasting durability, corrosion resistance and safe food preparation.</p><span className="ghost">Q</span></div>
-            <div className="why-card rv rv-d1"><div className="ember-bar"></div><div className="n">A / 02</div><h3>Innovative design</h3><p>Ergonomically engineered for comfort, efficiency and ease of use — helping users achieve better cooking results, every day.</p><span className="ghost">D</span></div>
-            <div className="why-card rv rv-d2"><div className="ember-bar"></div><div className="n">A / 03</div><h3>Strict quality control</h3><p>Every product undergoes rigorous testing for strength, performance and compliance with industry standards before it ships.</p><span className="ghost">QC</span></div>
-            <div className="why-card rv rv-d3"><div className="ember-bar"></div><div className="n">A / 04</div><h3>OEM &amp; private label</h3><p>Custom manufacturing — branding, packaging and product development tailored to your business requirements.</p><span className="ghost">OEM</span></div>
+          <div className="stats">
+            <div className="stat rv"><b><span data-count="26">0</span><em>+</em></b><span>SKUs manufactured</span></div>
+            <div className="stat rv rv-d1"><b><span data-count="5">0</span></b><span>Product lines</span></div>
+            <div className="stat rv rv-d2"><b><span data-count="3">0</span></b><span>Layer bonded core</span></div>
+            <div className="stat rv rv-d3"><b><span data-count="100">0</span><em>%</em></b><span>Rigorously tested</span></div>
           </div>
         </div>
       </section>
 
-      {/* PROCESS */}
+      {/* MANUFACTURING */}
       <section id="process">
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">07 — Manufacturing</div>
-              <h2 className="rv rv-d1">From raw steel<br /><i>to your stove.</i></h2>
+              <div className="sec-num rv">04 — Our Manufacturing</div>
+              <h2 className="rv rv-d1">Built on Precision.<br /><i>Driven by People.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Modern machinery, precision technology and experienced professionals monitoring every stage of production at scale.</p>
+          </div>
+          <a href={`${WA}?text=${encodeURIComponent("Hello JHANARICH! Please share details of your manufacturing process and capabilities.")}`} target="_blank" rel="noopener" className="mfg-cta btn btn-primary rv" data-hover>Our Manufacturing Process <Arrow /></a>
+          <div className="mfg-grid rv rv-d1">
+            <div className="mfg-main"><img src="/assets/wa-triply-range.jpg" alt="JHANARICH manufacturing and product range" loading="lazy" /></div>
+            <div className="mfg-tiles">
+              <div className="mfg-tile"><div className="mt-img"><img src="/assets/image29.jpg" alt="High-grade raw materials" loading="lazy" /></div><b>High-Grade Raw Materials</b><span>Sourced &amp; verified</span></div>
+              <div className="mfg-tile"><div className="mt-img"><img src="/assets/image13.jpg" alt="Precision metal forming" loading="lazy" /></div><b>Precision Metal Forming</b><span>Deep-drawn &amp; bonded</span></div>
+              <div className="mfg-tile"><div className="mt-img"><img src="/assets/image30.jpg" alt="Premium coatings and finishing" loading="lazy" /></div><b>Premium Coatings &amp; Finishing</b><span>3-layer, PFOA free</span></div>
+              <div className="mfg-tile"><div className="mt-img"><img src="/assets/image2.jpg" alt="Strict quality inspection" loading="lazy" /></div><b>Strict Quality Inspection</b><span>100% batch tested</span></div>
+            </div>
           </div>
           <div className="steps" id="steps">
             <div className="fill" id="stepsFill"></div>
@@ -462,28 +401,82 @@ export default function Home({ products }) {
         </div>
       </section>
 
+      {/* TRIPLY TECHNOLOGY */}
+      <section className="triply-sec" id="triply">
+        <div className="triply-stage" id="triplyStage">
+          <div className="triply-pin">
+            <div className="triply-head">
+              <div className="sec-num rv">05 — Our Technology</div>
+              <h2>The Strength of <i>Three.</i></h2>
+              <p className="triply-sub">Triply construction for faster, even heating and long-lasting performance.</p>
+            </div>
+            <div className="triply-showcase">
+              <div className="heatpan-wrap">
+                <div className="heat-stage" aria-hidden="true"></div>
+                <img className="heatpan" id="heatPan" src="/assets/pan-hero.png" alt="JHANARICH triply honeycomb fry pan" />
+                <div className="rings" id="heatRings" aria-hidden="true"><i></i><i></i><i></i></div>
+                <div className="bond-flash" id="bondFlash" aria-hidden="true"></div>
+              </div>
+              <div className="triply-stack">
+                <div className="layer layer-steel-top" id="lTop">
+                  <span className="tag right">Food Grade Stainless Steel (Interior)</span>
+                  <span className="idx">01</span>
+                </div>
+                <div className="layer layer-core" id="lMid">
+                  <span className="tag left">Aluminium Core (Middle Layer)</span>
+                  <span className="idx">02</span>
+                </div>
+                <div className="layer layer-steel-bot" id="lBot">
+                  <span className="tag right">Induction Friendly Stainless Steel (Outer Layer)</span>
+                  <span className="idx">03</span>
+                </div>
+              </div>
+            </div>
+            <div className="triply-caption">
+              <div className="tcap" id="c1"><b>Food Grade Stainless Steel — Interior</b><p>Non-reactive, safe and easy to clean. The pure cooking surface that touches your food.</p></div>
+              <div className="tcap" id="c2"><b>Aluminium Core — Middle Layer</b><p>Even heat distribution for better cooking — no hot spots, no scorching.</p></div>
+              <div className="tcap" id="c3"><b>Induction Friendly Stainless Steel — Outer Layer</b><p>Durable, works on all cooktops — induction, gas and electric.</p></div>
+            </div>
+            <div className="spec-strip">
+              <span className="spec"><i>◆</i>Faster Cooking</span>
+              <span className="spec"><i>◆</i>Even Heat Distribution</span>
+              <span className="spec"><i>◆</i>Energy Efficient</span>
+              <span className="spec"><i>◆</i>Longer Life</span>
+              <a className="spec wa-link" href={`${WA}?text=${encodeURIComponent("Hello JHANARICH! I'm interested in your Triply range — please share the catalogue and pricing.")}`} target="_blank" rel="noopener" data-hover><i style={{ color: "#22c15e" }}>✆</i>Enquire on WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* OEM */}
       <section className="oem" id="oem">
         <div className="wrap">
           <div className="oem-grid">
             <div>
-              <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>08 — OEM &amp; Private Label</div>
-              <h2 className="rv rv-d1">Your brand.<br /><i>Our forge.</i></h2>
-              <p className="rv rv-d2">Launch or expand your cookware line without building a factory. We manufacture to your specification — your logo, your colours, your packaging — at production scale. We onboard a limited number of new OEM partners each quarter, so every account gets full attention.</p>
-              <ul className="oem-list rv rv-d3">
-                <li>Custom branding &amp; logo etching <span>→</span></li>
-                <li>Bespoke packaging development <span>→</span></li>
-                <li>Product development to spec <span>→</span></li>
-                <li>Flexible MOQs for partners <span>→</span></li>
+              <div className="sec-num rv">06 — Partner with JHANARICH</div>
+              <h2 className="rv rv-d1">Grow your business with a<br /><i>trusted manufacturing partner.</i></h2>
+              <p className="rv rv-d2">We partner with distributors, retailers, hotels, restaurants and global brands to manufacture premium cookware at scale — your logo, your colours, your packaging. Launch or expand your line without building a factory.</p>
+              <ul className="oem-checks rv rv-d3">
+                <li><i><Check /></i>Custom Branding &amp; Packaging</li>
+                <li><i><Check /></i>Wide Range of Products</li>
+                <li><i><Check /></i>Reliable Bulk Supply</li>
+                <li><i><Check /></i>Competitive Pricing</li>
+                <li><i><Check /></i>Dedicated Support</li>
               </ul>
-              <div className="hero-actions rv rv-d4" style={{ marginTop: 38 }}>
-                <a href="#contact" className="btn btn-primary" style={{ background: "var(--ember)" }} data-hover>Start a partnership <Arrow /></a>
+              <div className="hero-actions rv rv-d4">
+                <a href="#contact" className="btn btn-primary" data-hover>Get Wholesale Quote <Arrow /></a>
               </div>
             </div>
             <div className="oem-poster rv rv-d2">
-              <img src="/assets/wa-brand-poster.jpg" alt="JHANARICH brand strategy and pillars" loading="lazy" />
-              <div className="cap"><span>Jhanarich Private Limited</span><b>Brand &amp; OEM</b></div>
+              <img src="/assets/wa-brand-poster.jpg" alt="JHANARICH — your brand, our expertise" loading="lazy" />
+              <div className="cap"><span>Your Brand, Our Expertise</span><b>OEM &amp; Private Label Cookware</b></div>
             </div>
+          </div>
+          <div className="aud-strip rv rv-d3">
+            <div className="aud"><b>For Distributors</b><span>Bulk supply</span></div>
+            <div className="aud"><b>For Retail Chains</b><span>Private label</span></div>
+            <div className="aud"><b>For Hotels &amp; Restaurants</b><span>Pro kitchens</span></div>
+            <div className="aud"><b>For Global Brands</b><span>Export ready</span></div>
           </div>
         </div>
       </section>
@@ -491,7 +484,7 @@ export default function Home({ products }) {
       {/* CATALOG BAND */}
       <section className="catalog-band">
         <div className="wrap" style={{ textAlign: "center" }}>
-          <div className="sec-num rv" style={{ justifyContent: "center" }}>09 — The Catalogue</div>
+          <div className="sec-num rv" style={{ justifyContent: "center" }}>07 — The Catalogue</div>
           <h2 className="rv rv-d1" style={{ marginBottom: "clamp(36px,5vw,64px)" }}>Retail-ready <i>catalogues.</i></h2>
           <div className="posters">
             <div className="poster rv"><img src="/assets/wa-frypan-poster.jpg" alt="Triply fry pan spec sheet" loading="lazy" /></div>
@@ -509,7 +502,7 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">10 — FAQ</div>
+              <div className="sec-num rv">08 — FAQ</div>
               <h2 className="rv rv-d1">Questions,<br /><i>answered.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Everything buyers usually ask before their first order. Anything else — one WhatsApp message away.</p>
@@ -531,8 +524,8 @@ export default function Home({ products }) {
         <div className="wrap">
           <div className="sec-head">
             <div>
-              <div className="sec-num rv">11 — Contact</div>
-              <h2 className="rv rv-d1">Let&apos;s make<br /><i>something hot.</i></h2>
+              <div className="sec-num rv">09 — Get in Touch</div>
+              <h2 className="rv rv-d1">Let&apos;s build something<br /><i>great together.</i></h2>
             </div>
             <p className="sec-desc rv rv-d2">Discuss your requirements, request a product catalogue, or explore custom manufacturing solutions.</p>
           </div>
@@ -540,36 +533,29 @@ export default function Home({ products }) {
             <div>
               <div className="c-item rv">
                 <div className="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z" /><circle cx="12" cy="10" r="2.6" /></svg></div>
-                <div><b>Factory &amp; Office</b><p># 27-17/9/8, Ayodhya Nagar,<br />Madhurawada, Visakhapatnam,<br />Andhra Pradesh, India — 530048</p></div>
+                <div><b>Location</b><p># 27-17/9/8, Ayodhya Nagar,<br />Madhurawada, Visakhapatnam,<br />Andhra Pradesh, India — 530048</p></div>
               </div>
               <a className="c-item rv rv-d1" href="tel:+919440121743" data-hover>
                 <div className="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z" /></svg></div>
-                <div><b>Phone</b><p>+91 9440 121743<br />+91 9182 236843</p></div>
+                <div><b>Call Us</b><p>+91 9440 121743<br />+91 9182 236843</p></div>
               </a>
               <a className="c-item rv rv-d2" href="mailto:admin@jhanarich.com" data-hover>
                 <div className="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 6L2 7" /></svg></div>
-                <div><b>Email</b><p>admin@jhanarich.com</p></div>
+                <div><b>Email Us</b><p>admin@jhanarich.com</p></div>
               </a>
-              <a className="c-item rv rv-d3" href={`${WA}?text=${encodeURIComponent("Hello JHANARICH! I'd like to discuss a cookware requirement.")}`} target="_blank" rel="noopener" data-hover>
-                <div className="ic"><WaIcon /></div>
-                <div><b>WhatsApp</b><p>+91 9440 121743</p></div>
-              </a>
+              <div className="c-item rv rv-d3">
+                <div className="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></svg></div>
+                <div><b>Business Hours</b><p>Mon – Sat · 9:00 AM – 6:30 PM</p></div>
+              </div>
             </div>
             <form id="enquiryForm" className="rv rv-d1">
-              <span className="fs">Enquiry — replies within one business day</span>
-              <h3>Request a catalogue</h3>
-              <div className="field"><label>Your name</label><input type="text" name="name" placeholder="Full name" required /></div>
-              <div className="field"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+91 …" /></div>
-              <div className="field"><label>Business type</label>
-                <select name="business">
-                  <option>Distributor / Wholesaler</option>
-                  <option>Retailer</option>
-                  <option>Hotel / Restaurant</option>
-                  <option>Kitchenware brand (OEM)</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div className="field"><label>Interested in</label>
+              <span className="fs">Send Us an Enquiry — replies within one business day</span>
+              <h3>Send Us an Enquiry</h3>
+              <div className="field"><label>Your Name *</label><input type="text" name="name" placeholder="Full name" required /></div>
+              <div className="field"><label>Company Name</label><input type="text" name="business" placeholder="Company / business (optional)" /></div>
+              <div className="field"><label>Email Address *</label><input type="email" name="email" placeholder="you@company.com" required /></div>
+              <div className="field"><label>Phone Number *</label><input type="tel" name="phone" placeholder="+91 …" required /></div>
+              <div className="field"><label>Enquiry Type</label>
                 <select name="line">
                   <option>Triply cookware</option>
                   <option>Non-stick cookware</option>
@@ -580,21 +566,8 @@ export default function Home({ products }) {
                 </select>
               </div>
               <div className="field"><label>Message</label><textarea name="message" placeholder="Quantities, markets, timelines…"></textarea></div>
-              <button type="submit" className="btn btn-primary" data-hover>Send via WhatsApp <Arrow /></button>
+              <button type="submit" className="btn btn-primary" data-hover>Submit Enquiry <Arrow /></button>
             </form>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA BAND */}
-      <section className="cta-band">
-        <div className="wrap">
-          <div className="sec-num rv" style={{ color: "var(--ember-hot)" }}>12 — Start today</div>
-          <h2 className="rv rv-d1">Ready when<br /><i>you are.</i></h2>
-          <p className="rv rv-d2">Catalogues, samples, OEM conversations — one message on WhatsApp and our team responds within a business day.</p>
-          <div className="hero-actions rv rv-d3">
-            <a href={`${WA}?text=${encodeURIComponent("Hello JHANARICH! I'd like to discuss a cookware requirement.")}`} target="_blank" rel="noopener" className="btn btn-primary" style={{ background: "var(--ember)" }} data-hover>Message us on WhatsApp <Arrow /></a>
-            <a href="mailto:admin@jhanarich.com" className="btn btn-ghost-light" data-hover>admin@jhanarich.com</a>
           </div>
         </div>
       </section>
@@ -602,16 +575,18 @@ export default function Home({ products }) {
       {/* FOOTER */}
       <footer>
         <div className="foot-top">
-          <div style={{ maxWidth: 320 }}>
-            <a href="#top" className="logo" data-hover><img src="/assets/logo.png" alt="JHANARICH" /></a>
-            <p style={{ color: "rgba(243,237,225,.5)", fontSize: 14, marginTop: 14 }}>Premium kitchen utensils manufactured in Visakhapatnam, India — for homes, hotels, restaurants and commercial kitchens worldwide.</p>
-          </div>
+          <a href="#top" className="logo" data-hover>
+            <img src="/assets/logo.png" alt="JHANARICH" />
+            <span className="wordmark"><b>JHANARICH</b></span>
+          </a>
+          <span className="tagline">Made in India | Trusted Worldwide</span>
+          <p className="fdesc">Premium kitchen utensils manufactured in Visakhapatnam, India — for homes, hotels, restaurants and commercial kitchens worldwide.</p>
           <div className="links">
             <div className="col"><b>Explore</b>
-              <a href="#about" data-hover>Story</a><a href="#triply" data-hover>Triply tech</a><a href="#products" data-hover>Products</a><a href="#process" data-hover>Process</a>
+              <a href="#products" data-hover>Products</a><a href="#process" data-hover>Manufacturing</a><a href="#triply" data-hover>Triply technology</a><a href="#oem" data-hover>OEM / Wholesale</a>
             </div>
-            <div className="col"><b>Products</b>
-              <a href="#products" data-hover>Triply</a><a href="#products" data-hover>Non-stick</a><a href="#products" data-hover>Stainless steel</a><a href="#products" data-hover>OEM / Private label</a>
+            <div className="col"><b>Ranges</b>
+              <a href="#products" data-hover>Triply</a><a href="#products" data-hover>Non-stick</a><a href="#products" data-hover>Stainless steel</a><a href="#oem" data-hover>Private label</a>
             </div>
             <div className="col"><b>Contact</b>
               <a href="tel:+919440121743" data-hover>+91 9440 121743</a>
